@@ -1,14 +1,14 @@
 ## 预览地址  
-[pan.mxin.ltd](https://pan.mxin.ltd/)
-必须设置伪静态
-支持cli 文件上传下载,
-支持世纪互联国际版国内版,同济大学sharepoint
-直接文件管理,移动删除,上传下载 预览,
-执行php one.php 会提示用法,
-多盘模式
-php one.php upload:file 本地文件 远程路径 驱动器
+[pan.mxin.ltd](https://pan.mxin.ltd/). 
+必须设置伪静态. 
+支持cli 文件上传下载. 
+支持世纪互联国际版国内版,同济大学sharepoint. 
+直接文件管理,移动删除,上传下载 预览. 
+执行php one.php 会提示用法. 
+多盘模式. 
+php one.php upload:file 本地文件 远程路径 驱动器. 
 
-其他说明
+其他说明. 
 
 1.nginx伪静态
 ```
@@ -142,21 +142,4 @@ OneDrive Directory Index
 >在onedrive的文件夹中添加`index.html` 文件，程序会直接输出网页而不列目录。  
 >配合 文件展示设置-直接输出 效果更佳  
 
-## 命令行功能  
-仅能在php cli模式下运行  
-**清除缓存:**  
-```
-php one.php cache:clear
-```
-**刷新缓存:**  
-```
-php one.php cache:refresh
-```
-**刷新令牌:**  
-```
-php one.php token:refresh
-```
-**上传文件:**  
-```
-php one.php upload:file 本地文件 [onedrive文件]
-```
+
