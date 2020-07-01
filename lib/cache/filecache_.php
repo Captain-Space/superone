@@ -14,7 +14,7 @@ class filecache_{
 	$key=str_replace("/","-",$key);
 	$file = $this->cache_path . urldecode($key). '.php';
 		$data = @include $file;
-		if(is_login()){	return null;}//管理员不用缓存
+		
 		if( is_array($data) && $data['expire'] > time() && !is_null($data['data']) ){
 			return $data['data'];
 		}else{
@@ -26,9 +26,13 @@ class filecache_{
 	    $key=str_replace("/","-",$key);
 	    	$file = $this->cache_path . urldecode($key) . '.php';
 		//$file = $this->cache_path . md5($key) . '.php';
-			if(is_login()){	return ;}//管理员不用缓
+			if(is_login()){	
+			    	$data['expire'] = time() + 600;
+			    }else{
+			        $data['expire'] = time() + $expire;
+			    }
 		
-		$data['expire'] = time() + $expire;
+		
 		$data['data'] = $value;
 		return @file_put_contents($file, "<?php return " . var_export($data, true) . ";", FILE_FLAGS);
 	}

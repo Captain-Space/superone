@@ -6,9 +6,11 @@ require __DIR__.'/init.php';
         
         $default_config = array(
             'update'=>'on',
-            'bgimg' => 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1593279280247&di=83531a41d6888e40095312c25c6d2e66&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F8%2F5881ba29cbf2c.jpg',
-  'mobileimg'=>'https://cdn.jsdelivr.net/gh/742481030/oneindex@9.9/mobileback.png',
-           
+            
+            'bgimg' => 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1593561827543&di=790f655dae8de8f730e26b795130de54&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fe%2F57a460d61ec49.jpg',
+  'mobileimg' => 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1593540323436&di=859126b2e7f655dcb094c594bc929fe4&imgtype=0&src=http%3A%2F%2Fimg.tupianzj.com%2Fuploads%2Fallimg%2F190131%2F29-1Z131110P6-54.jpg',
+  'update' => 'on',
+           'guestupload'=>'off',
       'site_name' => 'OneIndex',
       'title_name' => 'Index of /',
    
@@ -80,6 +82,7 @@ if($_GET["filename"])
   'api' => 'https://microsoftgraph.chinacloudapi.cn/v1.0/me/drive/root',
   'api_url' => 'https://microsoftgraph.chinacloudapi.cn/v1.0',
   'oauth_url' => 'https://login.partner.microsoftonline.cn/common/oauth2/v2.0',
+ " share"=>"on",
      );
         
         
@@ -93,7 +96,7 @@ if($_GET["filename"])
   'api' => 'https://graph.microsoft.com/v1.0/me/drive/root',
   'api_url' => 'https://graph.microsoft.com/v1.0',
   'oauth_url' => 'https://login.microsoftonline.com/common/oauth2/v2.0',
-            
+        "share"=>"on"    
             
             
             

@@ -8,10 +8,7 @@ define('SOFTVERSION', 9.21);
 !defined('ROOT') && define('ROOT', str_replace('\\', '/', dirname(__FILE__)).'/');
 !defined('CONFIG_PATH') && define('CONFIG_PATH', ROOT.'config/');
 !defined('CONTROLLER_PATH') && define('CONTROLLER_PATH', ROOT.'controller/');
-if (file_exists( ROOT.'vendor/autoload.php')){
-	require_once ROOT.'vendor/autoload.php';
-}
-
+require_once ROOT.'vendor/autoload.php';
 //__autoload方法
 function i_autoload($className)
 {
@@ -197,8 +194,8 @@ if (!function_exists('access_token')) {
             cache::refresh_cache(get_absolute_path(config('onedrive_root')));
             if (!is_login()) {
                 echo ' 未登陆';
-                echo '<a href="/login.php">登陆</a>';
-                exit;
+                echo '<a href="/admin">登陆</a>';
+               // exit;
             }
             // 清除php文件缓存
             cache::clear_opcache();
@@ -208,7 +205,7 @@ if (!function_exists('access_token')) {
     }
     }
 
-        return $token['access_token'];
+         return $token['access_token'];
 
         //endsub
     }

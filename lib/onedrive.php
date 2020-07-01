@@ -451,7 +451,7 @@ class onedrive
         return $siteidurl = $datass['id'];
     }
 
-    public static function create_folder($path, $name = '新建文件夹')
+    public static function create_folder($path="/", $name = '新建文件夹')
     {
         $path = self::urlencode($path);
         $path = empty($path) ? '/' : ":/{$path}:/";
