@@ -13,8 +13,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
       break;
     default:
-       // route::any('{path:#all}', 'ApiController@'.$_SERVER["REQUEST_METHOD"]);exit;
-         require_once ROOT.'lib/api.php';
+        route::any('{path:#all}', 'ApiController@'.$_SERVER["REQUEST_METHOD"]);exit;
+        // require_once ROOT.'lib/api.php';//如果文件管理功能异常,注销上面用这个;
          exit;
 }
 
@@ -68,7 +68,7 @@ $etime = microtime(true); //获取程序执行结束的时间
 $total = $etime - $stime;   //计算差值
 
 ?>
-<font color="#FFFFF">php 运行时间<?php e($total); ?>秒</font> 
+<div style="float:center;text-align:center"><font color=red">php 运行时间<?php e($total); ?>秒</font> <div>
 
 
 

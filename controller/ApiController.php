@@ -7,10 +7,20 @@ class ApiController
     public $驱动器;
     public $path;
     // public $配置文件;
+public function __call($method,$ages){
+		// 遍历参数$args
+		$var = '';
+		foreach ($ages as $value) {
+			$var .= $value.',';
+		}
+		return '方法是'.$method.'('.$var.')'.'不存在';
+		
+	}
 
     public function __construct()
-    {  
-    
+    {  //Access-Control-Allow-Methods
+    header("Access-Control-Allow-Origin: *"); 
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS,DELETE,MOVE,PATH,COPY,RENAME,CREAT,VIEW,PUT"); 
         $varrr = explode('/', $_SERVER['REQUEST_URI']);
         $驱动器 = $varrr['1'];
         array_splice($varrr, 0, 1);
@@ -26,7 +36,7 @@ class ApiController
 
     //功能正常
     public function move()
-    {if(!is_login() ){echo ("未登陆");exit;}
+    {if(!is_login() ){http_response_code(401);exit;}
         $id = ($_GET['id']);
         $id = str_replace('"', '', $id);
         $id = str_replace('[', '', $id);
@@ -45,7 +55,7 @@ class ApiController
     }
 //功能正常
     public function put()
-    {if(!is_login() && config("guestupload")=="off" ){echo ("未登陆 ");exit;}
+    {if(!is_login() && config("guestupload")=="off" ){http_response_code(401);exit;}
         $varrr = explode('/', $_SERVER['REQUEST_URI']);
         $驱动器 = $varrr['1'];
         array_splice($varrr, 0, 1);
@@ -72,7 +82,7 @@ class ApiController
 
     //功能正常
     public function delete()
-    {if(!is_login() ){echo ("未登陆");exit;}
+    {if(!is_login() ){if(!is_login() ){http_response_code(401);exit;}}
         echo ' 删除文件';
         if ($_GET['action'] == 'dellist') {
             $bodyData = @file_get_contents('php://input');
@@ -89,13 +99,13 @@ class ApiController
     }
 //功能正常
     public function rename()
-    {if(!is_login() ){echo ("未登陆");exit;}
+    {if(!is_login() ){if(!is_login() ){http_response_code(401);exit;}}
         onedrive::rename($_GET['rename'], $_GET['name']);
     }
 
     //功能正常
     public function creat()
-    {if(!is_login() ){echo ("未登陆");exit;}
+    {if(!is_login() ){if(!is_login() ){http_response_code(401);exit;}}
         echo '创建文件夹';
         $varrr = explode('/', $_SERVER['REQUEST_URI']);
         $驱动器 = $varrr['1'];

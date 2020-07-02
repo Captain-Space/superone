@@ -4,11 +4,12 @@ $stime = microtime(true);
 error_reporting(E_ALL & ~E_NOTICE);
 date_default_timezone_set('PRC');
 define('TIME', time());
-define('SOFTVERSION', 9.21);
+define('SOFTVERSION', 9.7);
 !defined('ROOT') && define('ROOT', str_replace('\\', '/', dirname(__FILE__)).'/');
 !defined('CONFIG_PATH') && define('CONFIG_PATH', ROOT.'config/');
 !defined('CONTROLLER_PATH') && define('CONTROLLER_PATH', ROOT.'controller/');
-require_once ROOT.'vendor/autoload.php';
+if(file_exists(ROOT.'vendor/autoload.php')){require_once ROOT.'vendor/autoload.php';}
+
 //__autoload方法
 function i_autoload($className)
 {
@@ -158,7 +159,7 @@ if (!function_exists('access_token')) {
             $地址 = str_replace('?code='.$code, '', $_SERVER['REQUEST_URI']);
 
             echo '<a href="'.$地址.'">授权成功</a>';
-            echo   '是否启用Sharepoint';
+            echo   ' onedriv授权成功是否启用Sharepoint可选操作,确保站点存在文件否则无限刷新';
             echo '<form action="/'.$驱动器.'/ "  method="get">
  　　<input type="text" name="site" value ="/sites/名称" />
  　　<input type="submit" value="站点id" />
@@ -192,11 +193,7 @@ if (!function_exists('access_token')) {
             $授权地址 = $oauthurl.'/authorize?client_id='.$client_id.'&scope=offline_access+files.readwrite.all+Sites.ReadWrite.All&response_type=code&redirect_uri=https://coding.mxin.ltd&state='.$redirect_uri;
             echo '<a href="'.$授权地址.'">授权应用</a>';
             cache::refresh_cache(get_absolute_path(config('onedrive_root')));
-            if (!is_login()) {
-                echo ' 未登陆';
-                echo '<a href="/admin">登陆</a>';
-               // exit;
-            }
+            
             // 清除php文件缓存
             cache::clear_opcache();
         }
@@ -210,7 +207,7 @@ if (!function_exists('access_token')) {
         //endsub
     }
 }
-
+//通过配置文件获取access—token
  if (!function_exists('get_token')) {
      function get_token($配置文件 = array())
      {

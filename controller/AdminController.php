@@ -124,7 +124,10 @@ class AdminController
 		
 		return view::load('offline');
 	}
-
+public function drives(){
+    
+    	return view::load('drives');
+}
     public function setpass()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -72,6 +72,7 @@ require __DIR__.'/init.php';
            header('Location:/');
     }else{
         echo"不是管理员";
+         header('Location:/');
     }
   
     

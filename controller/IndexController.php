@@ -94,6 +94,11 @@ class IndexController
 
     public function index()
     {
+    header("X-Powered-By:  Shanghai Mingxin Technology Co., Ltd."); 
+        header("Access-Control-Allow-Origin: *"); 
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS,VIEW"); 
+        
+        
         //验证缓存是否异常
         $this->checkcache();
 
@@ -113,7 +118,10 @@ class IndexController
     }
 
     public function clientcache()
-    {
+    {if($_COOKIE["moveitem"]){
+        echo "文件管理模式";
+        
+    }else{
         if (!is_login()) {
             $interval = 1200; //20分钟不得超过token有效期
         }else{
@@ -132,7 +140,7 @@ class IndexController
             }
             header('Cache-Control:max-age='.$interval);
             header('Expires: '.gmdate('D, d M Y H:i:s', time() + $interval).' GMT');
-            header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+            header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');}
        
     }
 
@@ -141,27 +149,14 @@ class IndexController
         if (file_exists(ROOT.'config/'.self::$驱动器.'.php')) {
             if ($this->path == '/') {
                 if ($this->items == null) {
-                    echo ' ';
+                    
                     if (function_exists('opcache_reset')) {
                         opcache_reset();
                     }
                     // oneindex::refresh_cache(self::$请求路径);
                     //  header("refresh: 1");
-                    echo'<script>
-	   
-	     function deldel(){
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.addEventListener("readystatechange", function() {
-             if(this.readyState === 4) {
-            console.log(this.responseText);
-            location.reload(); }});
-            xhr.open("GET", "/del.php");
-             xhr.send();
-            }
-	     deldel();
-	     </script>';
-                    exit;
+                   
+                   
                 }
             }
         } else {

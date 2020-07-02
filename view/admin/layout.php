@@ -31,7 +31,7 @@
       <div class="mdui-list-item-content">基本设置</div>
     </a>
    
-    <a href="<?php echo $root?>?/admin/drivrs" class="mdui-list-item">
+    <a href="<?php echo $root?>?/admin/drives" class="mdui-list-item">
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe8b8;</i>
       <div class="mdui-list-item-content">多盘配置</div>
     </a>
@@ -39,18 +39,9 @@
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe53b;</i>
       <div class="mdui-list-item-content">代理设置</div>
     </a>
-      <a href="<?php echo $root?>?/admin/daili" class="mdui-list-item">
-      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe53b;</i>
-      <div class="mdui-list-item-content">防盗链设置</div>
-    </a>
-    <a href="<?php echo $root?>?/admin/webdav" class="mdui-list-item">
-      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe53b;</i>
-      <div class="mdui-list-item-content">webdav设置</div>
-    </a>
-    <a href="<?php echo $root?>?/admin/cache" class="mdui-list-item">
-      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe53b;</i>
-      <div class="mdui-list-item-content">页面缓存</div>
-    </a>
+      
+  
+    
 
     <a href="<?php echo $root?>?/admin/show" class="mdui-list-item">
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe3a5;</i>
@@ -76,11 +67,7 @@
     
     
     
-<a href="https://file.mxin.ltd/" class="mdui-list-item" target="_blank">
-      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe2bf;</i>
-      
-      <div class="mdui-list-item-content">文件管理国际版vue</div>
-    </a>
+
     
     
     

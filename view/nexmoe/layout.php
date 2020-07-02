@@ -4,6 +4,7 @@
 
     <head>
     <meta charset="utf-8">
+    <meta name="google" content="notranslate" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
@@ -11,12 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/js/mdui.min.js"></script>
-    <script src="//cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/axios/axios@0.19.2/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+   
   
     <style>
         .mc-drawer {
@@ -30,9 +26,16 @@
 
             background-image: url(<?php echo config("bgimg")?>) !important;
             color: #FFF;
-
+background-position: center  0px;
+background-size: cover;
         }
+#menu {
 
+            background-image: url(https://cdn.jsdelivr.net/gh/742481030/cdnimg@latest/2020/07/02/209e4bc27802aff0ebd35b357c60f3d5.png) !important;
+            color: #FFF;
+background-position: center  0px;
+background-size: cover;
+        }
 <?php endif?>
 
  <?php if( oneindex::is_mobile()): ?>
@@ -65,7 +68,7 @@
         }
 
         .mdui-container {
-            max-width: 950px;
+            max-width: 1024px;
         }
 
         .mdui-list-item {
@@ -110,9 +113,9 @@
             height: -webkit-fill-available;
         }
 
-        @media screen and (max-width:950px) {
+        @media screen and (max-width:750px) {
             .mdui-list-item .mdui-text-right {
-                display: none;
+               display: none;
             }
 
             .mdui-container {
@@ -191,7 +194,7 @@
             margin-left: 1px;
         }
 
-        body {
+       html, body {
             width: -webkit-fill-available;
             height: -webkit-fill-available;
             background-size: cover;
@@ -279,12 +282,7 @@
 <button class="mdui-btn mdui-btn-icon"  oneclick="downall()"><i class="mdui-icon material-icons">share</i></button>
 
                         </div>
-             <!--   <div class="mdui-typo-title mdui-hidden-xs-down">首页</div>
-                <div class="mdui-toolbar-spacer"></div>
-                <div class="mc-login-btn mdui-btn mdui-btn-dense mdui-ripple mdui-ripple-white">登录</div>
-                <div class="mc-register-btn mdui-btn mdui-btn-dense mdui-ripple mdui-ripple-white">注册</div>
-                -->
-                
+            
                 
                 
             </div>
@@ -297,79 +295,51 @@
                         class="mdui-list-item-icon mdui-icon material-icons">home</i>
                     <div class="mdui-list-item-content">首页</div>
                 </a>
-                <a class="mdui-list-item mdui-ripple" href="/questions"><i
-                        class="mdui-list-item-icon mdui-icon material-icons">forum</i>
-                    <div class="mdui-list-item-content">问答</div>
-                </a>
-                <a href="/docs" class="mdui-list-item mdui-ripple"><i
-                        class="mdui-list-item-icon mdui-icon material-icons">book</i>
-                    <div class="mdui-list-item-content">开发文档</div>
-                </a>
-                <a href="/design" class="mdui-list-item mdui-ripple"><i
-                        class="mdui-list-item-icon mdui-icon material-icons">layers</i>
-                    <div class="mdui-list-item-content">设计规范</div>
-                </a>
-
-
-                <?php 
+ <?php 
 		
-		$filess = scandir(ROOT."config/");
- foreach ($filess as $part) {
-        if ('.' == $part) continue;
-        if ('..' == $part) continue;
-        if ('default.php' == $part) continue;
-         if ('uploads.php' == $part) continue;
-          if ('uploaded.php' == $part) continue;
-           if ('base.php' == $part) continue;
+	$filess = scandir(ROOT."config/");
+    foreach ($filess as $part) {
+        if ('.' == $part ||'..' == $part||'default.php' == $part||'default.php' == $part||'uploads.php' == $part||'uploaded.php' == $part||'base.php' == $part) continue;
         else {
              $v=str_replace(".php","",$part);
-          echo '
-    <a href="/'.$v.'/" class="mdui-list-item mdui-ripple">
-			<i class="mdui-list-item-icon mdui-icon material-icons">cloud</i>
-			<div class="mdui-list-item-content">'.$v.'</div>
-		</a>
-    ';
-        }}
+        echo '<a href="/'.$v.'/" class="mdui-list-item mdui-ripple">
+		    	<i class="mdui-list-item-icon mdui-icon material-icons">cloud</i>
+			    <div class="mdui-list-item-content">'.$v.'</div>
+	    	</a>';
+             }
+        
+        }
 
 	if($_COOKIE["admin"]==config("password@base"))	
-	echo'
-	  
-		<a href="/install.php" class="mdui-list-item mdui-ripple">
+	echo'<a href="/install.php" class="mdui-list-item mdui-ripple">
 			<i class="mdui-list-item-icon mdui-icon material-icons">home</i>
 			<div class="mdui-list-item-content">添加新盘</div>
-		</a>
-	
-	';
-		
-		
-		?>
-
-                <?php e(config('drawer'));?>
-
-                <a href="https://github.com/742481030/oneindex" class="mdui-list-item mdui-ripple">
+		</a>';
+?>
+<?php e(config('drawer'));?><a href="https://github.com/742481030/oneindex" class="mdui-list-item mdui-ripple">
                     <i class="mdui-list-item-icon mdui-icon material-icons">code</i>
                     <div class="mdui-list-item-content">Github</div>
                 </a>
             </div>
-            <div class="copyright">1111111</div>
+            <div class="copyright"></div>
         </div>
-
-
-
-
-
 
     </div>
         <div class="mdui-container">
 
             <div class="mdui-container-fluid"></div>
-            <htmlhtml id="htmlhtml">
+            <list id="viewlist">
                 <?php endif?><?php view::section('content');?>
             <?php if($_REQUEST["type"]!="json"): ?>
-            </htmlhtml>
+            </list>
     </div>
 
  <ul class="mdui-menu" id="menu">
+     <?php  if($_COOKIE["moveitem"]): ?>
+      <li class="mdui-menu-item">
+            <a href="javascript:;" onclick="pastitem()" ; class="mdui-ripple">粘贴</a>
+        </li>
+        <?php endif;?>
         <li class="mdui-menu-item">
             <a href="javascript:;" onclick="share()" ; class="mdui-ripple">分享链接</a>
         </li>
@@ -379,6 +349,9 @@
         <?php if(is_login()): ?>
         <li class="mdui-menu-item">
             <a href="javascript:;" class="mdui-ripple" onclick="renamebox()" ;>重命名</a>
+        </li>
+        <li class="mdui-menu-item">
+            <a href="javascript:;" onclick="moveoneitem()" ; class="mdui-ripple">移动</a>
         </li>
         <li class="mdui-menu-item">
             <a href="javascript:;" class="mdui-ripple" onclick="delitem()" ;>删除</a>
@@ -426,7 +399,12 @@
 
 
        
+ <script src="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/js/mdui.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/gh/axios/axios@0.19.2/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
         
         
         <script src="/view/nexmoe/manger.js"></script>
