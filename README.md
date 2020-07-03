@@ -1,5 +1,6 @@
 ## 预览地址  
 [pan.mxin.ltd](https://pan.mxin.ltd/)
+免费空间推荐极速响应免费嫖 [https://webs.horain.net/](https://webs.horain.net/)
 ##毫秒级响应,纵然他前后端没有分离.  
 ##服务器客户端双重缓存策略.  
 ##缓存策略精细到文件夹,避免频繁调用api.  
