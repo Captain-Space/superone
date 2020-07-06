@@ -1,10 +1,8 @@
 <?php view::layout('layout')?>
-
 <?php
 $item['thumb'] = onedrive::thumbnail($item['path']);
 ?>
 <?php view::begin('content');?>
- <script src="https://cdn.jsdelivr.net/combine/npm/mdui@0.4.3/dist/js/mdui.min.js,gh/mcstudios/glightbox/dist/js/glightbox.min.js,npm/aplayer/dist/APlayer.min.js,npm/js-cookie@2/src/js.cookie.min.js,gh/axios/axios@0.19.2/dist/axios.min.js"></script>
 	<iframe id="mask" src='<?php echo str_replace('transform/thumbnail?', 'transform/pdf?',$item['thumb']);?>' 
 		allowfullscreen="allowfullscreen"
         mozallowfullscreen="mozallowfullscreen"

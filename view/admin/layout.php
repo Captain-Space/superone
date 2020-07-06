@@ -20,7 +20,10 @@
 <?php $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME']));?>
 <div class="mdui-drawer" id="main-drawer">
   <div class="mdui-list">
-	<br><br>  
+	<a	<a href="<?php echo $root?>?/admin/supercache" class="mdui-list-item">
+      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe8b8;</i>
+      <div class="mdui-list-item-content">超级缓存</div>
+    </a>
 		<a href="<?php echo $root?>?/admin/update" class="mdui-list-item">
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe8b8;</i>
       <div class="mdui-list-item-content">更新设置</div>
@@ -83,11 +86,13 @@
 <div class="mdui-container">
 	<?php view::section('content');?>
 </div>
+  <script src="/view/nexmoe/manger.js"></script>
 <script>
 	$("a[href='<?php echo'?'.(route::get_uri());?>']").addClass("mdui-text-color-blue");
   function logout() {
         document.cookie = "admin=; path=/";
-        location.href = "/";
+        
+        deldel();
     }
 </script>
 </body>

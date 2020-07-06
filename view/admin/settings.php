@@ -11,7 +11,14 @@
 		  <h4>网站名称</h4>
 		  <input class="mdui-textfield-input" type="text" name="site_name" value="<?php echo $config['site_name']; ?>"/>
 		</div>
-
+		
+		
+<div class="mdui-textfield">
+		  <h4>是否开启动左侧应用栏留空关闭</h4>
+		  <input class="mdui-textfield-input" type="text" name="appbar" value="<?php echo $config['appbar']; ?>"/>
+		</div>
+		
+		
 	<div class="mdui-textfield">
 		  <h4>电脑背景图片</h4>
 		  <input class="mdui-textfield-input" type="text" name="bgimg" value="<?php echo $config['bgimg']; ?>"/>

@@ -1,10 +1,10 @@
-<?php view::layout('install/layout')?>
+<?php view::layout('layout')?>
 
 <?php view::begin('content');?>
 	
 <div class="mdui-container-fluid">
 	<div class="mdui-col-md-6 mdui-col-offset-md-3">
-	  <center><h4 class="mdui-typo-display-2-opacity" style="color:#Fff">系统管理</h4></center>
+	  <center><h1 class="mdui-typo-display-2-opacity">输入密码进行查看</h1></center>
 	  <form action="" method="post">
 		  <div class="mdui-textfield mdui-textfield-floating-label">
 		    <i class="mdui-icon material-icons">https</i>
@@ -12,12 +12,10 @@
 		    <input name="password" class="mdui-textfield-input" type="password"/>
 		  </div>
 		  <br>
-		  <button type="submit" class="mdui-btn mdui-btn-dense mdui-color-theme-red mdui-ripple mdui-btn-block" style="background-color:red;">
+		  <button type="submit" class="mdui-center mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme">
 		  	<i class="mdui-icon material-icons">fingerprint</i>
-		  	登录
+		  	查看
 		  </button>
-		  <br>
-		  <a  href="/login.php" class="mdui-btn mdui-btn-dense mdui-color-theme-red mdui-ripple mdui-btn-block" style="background-color:red";>qq登陆</a>
 	  </form>
 	</div>
 	

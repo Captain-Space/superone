@@ -1,20 +1,25 @@
-<!--<?php if($_REQUEST["type"]!="json"): ?>-->
+<?php if($_REQUEST["type"]!="json"): ?>
 <!DOCTYPE html>
 <html>
 
     <head>
     <meta charset="utf-8">
-    <meta name="google" content="notranslate" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="renderer" content="webkit" />
+    
+    <link rel="preconnect" href="//cdn.jsdelivr.net">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
-    <title><?php e($title.' - '.config('site_name'));?></title>
+     <title><?php e($title.' - '.config('site_name'));?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-   
+    
+    
+  
   
     <style>
+    
+   
         .mc-drawer {
             background-color: rgba(255, 255, 255, 0.5);
 <?php if( oneindex::is_mobile()): ?>
@@ -25,14 +30,14 @@
         .mdui-toolbar {
 
             background-image: url(<?php echo config("bgimg")?>) !important;
-            color: #FFF;
+            
 background-position: center  0px;
 background-size: cover;
         }
 #menu {
 
-            background-image: url(https://cdn.jsdelivr.net/gh/742481030/cdnimg@latest/2020/07/02/209e4bc27802aff0ebd35b357c60f3d5.png) !important;
-            color: #FFF;
+            background-image: url(<?php echo config("bgimg")?>) !important;
+            
 background-position: center  0px;
 background-size: cover;
         }
@@ -113,7 +118,7 @@ background-size: cover;
             height: -webkit-fill-available;
         }
 
-        @media screen and (max-width:750px) {
+        @media screen and (max-width:800px) {
             .mdui-list-item .mdui-text-right {
                display: none;
             }
@@ -208,6 +213,7 @@ background-size: cover;
             background-repeat: no-repeat;
             <?php endif?>
         }
+      
         
          .thumb .th {
             display: none;
@@ -258,18 +264,24 @@ background-size: cover;
    
     bottom: 64px;
 }
-        
+        <?php echo config("cssstyle");?>
         
     </style>
 </head>
 
-    <body class="mdui-drawer-body-left  ">
-        <div class=" mdui-appbar-with-toolbar  mdui-theme-accent-pink mdui-theme-primary-indigo">
-        <div class="mdui-appbar mdui-appbar-fixed mdui-color-theme-blue">
-            <div class="mdui-toolbar mdui-color-blue"><button mdui-drawer="{target: '.mc-drawer', swipe: true}"
+    <body class=" mdui-loaded <?php if(config("appbar")):?>mdui-drawer-body-left<?endif?> ">
+        <div class=" mdui-appbar-with-toolbar  mdui-color-theme mdui-color-theme">
+        <div class="mdui-appbar mdui-appbar-fixed   mdui-theme-layout-["color"]">
+            <div class="mdui-toolbar mdui-color-blue "><button mdui-drawer="{target: '.mc-drawer', swipe: true}"
                     class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"><i
                         class="mdui-icon material-icons">menu</i></button>
                         
+                        <!---------->
+                    <div id="navess">   <?php foreach((array)$navs as $n=>$l):?>
+                    <i class="mdui-icon material-icons mdui-icon-dark" style="margin:0;">chevron_right</i>
+                    <a  href="<?php e("/".$驱动器.$l);?>"><?php e($n);?></a>
+                    <?php endforeach;?></div>
+		<!--------------->
                         	<div class="mdui-toolbar-spacer"></div>
 
 
@@ -281,15 +293,15 @@ background-size: cover;
 
 <button class="mdui-btn mdui-btn-icon"  oneclick="downall()"><i class="mdui-icon material-icons">share</i></button>
 
-                        </div>
+                      </div>
             
-                
-                
+                 
+            
             </div>
         </div>
 
 
-        <div class="mc-drawer mdui-drawer">
+        <div class="mc-drawer mdui-drawer <?php if(!config("appbar")):?>mdui-drawer-close<?endif?>">
             <div class="mdui-list">
                 <a class="mdui-list-item mdui-ripple " href="/"><i
                         class="mdui-list-item-icon mdui-icon material-icons">home</i>
@@ -299,7 +311,7 @@ background-size: cover;
 		
 	$filess = scandir(ROOT."config/");
     foreach ($filess as $part) {
-        if ('.' == $part ||'..' == $part||'default.php' == $part||'default.php' == $part||'uploads.php' == $part||'uploaded.php' == $part||'base.php' == $part) continue;
+        if ('.' == $part ||'..' == $part||'default.php' == $part||'default.php' == $part||'uploads.php' == $part||'uploaded.php' == $part||'base.php' == $part||".DS_Store"==$part) continue;
         else {
              $v=str_replace(".php","",$part);
         echo '<a href="/'.$v.'/" class="mdui-list-item mdui-ripple">
@@ -316,7 +328,7 @@ background-size: cover;
 			<div class="mdui-list-item-content">添加新盘</div>
 		</a>';
 ?>
-<?php e(config('drawer'));?><a href="https://github.com/742481030/oneindex" class="mdui-list-item mdui-ripple">
+<?php e(config('drawer'));?><a href="https://github.com/742481030/oneindex" class="mdui-list-item mdui-ripple ">
                     <i class="mdui-list-item-icon mdui-icon material-icons">code</i>
                     <div class="mdui-list-item-content">Github</div>
                 </a>
@@ -393,21 +405,18 @@ background-size: cover;
 
 
     </upload>
+    
     </body>
 
     <footer>
 
 
+      
+ 
+         <script src="https://cdn.jsdelivr.net/combine/npm/mdui@0.4.3/dist/js/mdui.min.js,gh/mcstudios/glightbox/dist/js/glightbox.min.js,npm/aplayer/dist/APlayer.min.js,npm/js-cookie@2/src/js.cookie.min.js,gh/axios/axios@0.19.2/dist/axios.min.js"></script>
+         
+          <script src="/view/nexmoe/manger.js"></script>
        
- <script src="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/js/mdui.min.js"></script>
-    <script src="//cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/gh/axios/axios@0.19.2/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-        
-        
-        <script src="/view/nexmoe/manger.js"></script>
 
        
     </footer>

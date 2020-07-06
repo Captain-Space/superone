@@ -177,20 +177,15 @@ var move= "<?php echo $me=str_replace("\"","\\\"",$_COOKIE["moveitem"]);
 <?php
 
 if (    ( !is_login() && config("guestpreload") )   ||  (is_login()&&config("adminpreload"))               ) {
-    
-    
-    $i=0;
-    $num=config("preloadnum")?? 10;
     foreach ($items as $item) {
 
         if(!empty($item['folder'])){
-            if ($i==$num){break;}
             echo 
             ' <link rel="prefetch" href="/'.$驱动器.'/'.$url.rawurlencode($item['name']).'/">';
                     
                 }
 
-$i++;
+
 
     }
 }
