@@ -4,7 +4,7 @@ $stime = microtime(true);
 error_reporting(E_ALL & ~E_NOTICE);
 date_default_timezone_set('PRC');
 define('TIME', time());
-define('SOFTVERSION', 9.7);
+define('SOFTVERSION', 9.8);
 !defined('ROOT') && define('ROOT', str_replace('\\', '/', dirname(__FILE__)).'/');
 !defined('CONFIG_PATH') && define('CONFIG_PATH', ROOT.'config/');
 !defined('CONTROLLER_PATH') && define('CONTROLLER_PATH', ROOT.'controller/');
@@ -32,6 +32,8 @@ spl_autoload_register('i_autoload');
 if (!function_exists('config')) {
     function config($key)
     {
+        if(!file_exists(ROOT."/config/"))
+        {mkdir(ROOT."/config/");}
         static $configs = array();
         list($key, $file) = explode('@', $key, 2);
         $file = empty($file) ? 'base' : $file;
@@ -153,13 +155,28 @@ if (!function_exists('access_token')) {
         $response = json_decode($response, true);
         $response;
         if (!empty($response['refresh_token'])) {
+            
+           
+            echo 'nginx必须设置伪静态
+            if (!-f $request_filename){
+set $rule_0 1$rule_0;
+}
+if (!-d $request_filename){
+set $rule_0 2$rule_0;
+}
+if ($rule_0 = "21"){
+rewrite ^/(.*)$ /index.php/$1 last;
+}
+            
+           <br> ';
+            
             config('refresh_token@'.$驱动器, $response['refresh_token']);
             config('access_token@'.$驱动器, $response['access_token']);
 
             $地址 = str_replace('?code='.$code, '', $_SERVER['REQUEST_URI']);
 
-            echo '<a href="'.$地址.'">授权成功</a>';
-            echo   ' onedriv授权成功是否启用Sharepoint可选操作,确保站点存在文件否则无限刷新';
+            echo '<a href="'.$地址.'"> onedriv授权授权成功点次完成配置</a><br> <br> <br>';
+            echo   ' 如果需要开启sharepoint25T,请去exchage创建组,组的名称填下面,默认使用onedrive<br>';
             echo '<form action="/'.$驱动器.'/ "  method="get">
  　　<input type="text" name="site" value ="/sites/名称" />
  　　<input type="submit" value="站点id" />
@@ -183,7 +200,9 @@ if (!function_exists('access_token')) {
                 echo '<a href="/login.php">登陆</a>';
                 exit;
             }
-
+ if(config("password")=="oneindex"){echo "你的密码是默认密码oneindex请修改后添加";
+echo'<a href="/?/admin/setpass">点这里修改密码</a>';
+ exit;}
             $oauthurl = $配置文件['oauth_url'];
             $client_id = $配置文件['client_id'];
             if ($_SERVER['REQUEST_URI'] == '/') {

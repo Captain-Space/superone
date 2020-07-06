@@ -1,6 +1,56 @@
 <?php
 require __DIR__.'/init.php';
+function Alert($Str,$Typ="back",$TopWindow="",$Tim=100){
+    Echo "<script>".Chr(10);
+    If(!Empty($Str)){
+        Echo "alert(\"Warning:\\n\\n{$Str}\\n\\n\");".Chr(10);
+    }
 
+    Echo "function _r_r_(){";
+    $WinName=(!Empty($TopWindow))?"top":"self";
+    Switch (StrToLower($Typ)){
+    Case "#":
+        Break;
+    Case "back":
+        Echo $WinName.".history.go(-1);".Chr(10);
+        Break;
+    Case "reload":
+        Echo $WinName.".window.location.reload();".Chr(10);
+        Break;
+    Case "close":
+        Echo "window.opener=null;window.close();".Chr(10);
+        Break;
+    Case "function":
+        Echo "var _T=new Function('return {$TopWindow}')();_T();".Chr(10);
+        Break;
+        //Die();
+    Default:
+        If($Typ!=""){
+            //Echo "window.{$WinName}.location.href='{$Typ}';";
+            Echo "window.{$WinName}.location=('{$Typ}');";
+        }
+    }
+
+    Echo "}".Chr(10);
+
+    //為防止Firefox不執行setTimeout
+    Echo "if(setTimeout(\"_r_r_()\",".$Tim.")==2){_r_r_();}";
+    IF($Tim==100){
+        Echo "_r_r_();".Chr(10);
+    }Else{
+        Echo "setTimeout(\"_r_r_()\",".$Tim.");".Chr(10);
+    }
+    Echo "</script>".Chr(10);
+    Exit();
+}
+
+
+if (!config("qqlogin"))
+{ Alert($tip = "管理员没有开启qq互联登陆请配置config/base.php中 'QQ互联登陆' => '1',然后退出登陆点qq登陆即可", "back") ;
+    
+    
+   
+}
  //应用的APPID
  $app_id = "101861794";
  //应用的APPKEY
@@ -64,7 +114,7 @@ require __DIR__.'/init.php';
    //cho("Hello " . $user->openid);
     if(config("openid")==""){
          config("openid",$user->openid);
-         config("password",$user->openid);
+        
          setcookie("admin",config("password"));
            header('Location:/');
     }elseif($user->openid==config("openid")){

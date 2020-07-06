@@ -6,9 +6,28 @@
 		static $thumb = array();
 		
 	
+	// 只刷新当前目录缓存
+		static function refresh_current_cache($path) {
+			set_time_limit(0);
+			ignore_user_abort();
+		//	if (php_sapi_name() == "cli") {
+				echo $path . PHP_EOL;
+		//	}
+			$items = onedrive::dir($path);
+			if ($items == 'error') { /*报错中止*/
+				return 'failed';
+			}
+			if (is_array($items) && $items !== 'error') {
+				cache::set('dir_' . $path, $items, config('cache_expire_time'));
+			}
+			return 'success';
+		}
+
+
 
 		// 刷新缓存
 		static function refresh_cache($path){
+		    
 			set_time_limit(0);
 			if( php_sapi_name() == "cli" ){
 			   echo $path.PHP_EOL;

@@ -1,5 +1,8 @@
 <?php
-
+//use cahce;
+//use onedrive;
+//use view;
+//use fetch
 class IndexController
 {
     private $url_path;
@@ -23,17 +26,24 @@ class IndexController
         if ($驱动器 == '') {
             $驱动器 = 'default';
         }
+       
         self::$驱动器 = $驱动器;
         self::$请求路径 = $请求路径;
         //缓存路径不存在就创建
         if(is_login()){
              define('CACHE_PATH', ROOT.'cache/'.$驱动器.'-admin/');
+             if(!file_exists(ROOT.'cache/')){
+                 mkdir(ROOT.'cache/');
+             }
         if (!file_exists(CACHE_PATH)) {
           
             mkdir(CACHE_PATH);
         }
         }else{
              define('CACHE_PATH', ROOT.'cache/'.$驱动器.'/');
+              if(!file_exists(ROOT.'cache/')){
+                 mkdir(ROOT.'cache/');
+             }
         if (!file_exists(CACHE_PATH)) {
             mkdir(CACHE_PATH);
         }
@@ -84,7 +94,7 @@ class IndexController
         } else {
             $this->page = $mat[1][0];
         }
-        $this->page = $_GET['page'] ?? '1';
+        $this->page = $_REQUEST['page'] ?? '1';
         $this->url_path = preg_replace("(\.page\-[0-9]*/$)", '', get_absolute_path(join('/', $paths)));
 
         $this->path = get_absolute_path(config('onedrive_root').$this->url_path);
@@ -94,17 +104,25 @@ class IndexController
 
     public function index()
     {
-    header("X-Powered-By:  Shanghai Mingxin Technology Co., Ltd."); 
+        header("X-Powered-By:  Shanghai Mingxin Technology Co., Ltd."); 
         header("Access-Control-Allow-Origin: *"); 
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS,VIEW"); 
         
+       // $file = include(CACHE_PATH . urldecode('dir_'.str_replace("/","-",$this->path)). '.php');
         
-        //验证缓存是否异常
-        $this->checkcache();
+      // echo $file["expire"]."<br>";
+      //  echo TIME;exit;
+        
+        
+
+
+
 
         //是否404
         $this->is404();
-
+        $this->checkcache();
+        //验证缓存是否异常
+        
         $this->is_password();
         //客户端缓存
         $this->clientcache();
@@ -116,47 +134,57 @@ class IndexController
             return $this->dir();
         }
     }
-
+    //客户端缓存验证管理员不启用
     public function clientcache()
-    {if($_COOKIE["moveitem"]){
-        echo "文件管理模式";
-        
-    }else{
-        if (!is_login()) {
-            $interval = 1200; //20分钟不得超过token有效期
-        }else{
-               $interval = 300 ;//5分钟
-        }
-
-            if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-                // HTTP_IF_MODIFIED_SINCE即下面的: Last-Modified,文档缓存时间.
-                // 缓存时间+时长.
-                $c_time = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) + $interval;
-                // 当大于当前时间时, 表示还在缓存中... 释放304
-                if ($c_time > time()) {
-                    header('HTTP/1.1 304 Not Modified');
-                    exit();
-                }
-            }
-            header('Cache-Control:max-age='.$interval);
-            header('Expires: '.gmdate('D, d M Y H:i:s', time() + $interval).' GMT');
-            header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');}
+    { 
        
+        $docomenttime= cache::gettime('dir_'.$this->path);
+       
+      
+            if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
+                
+                // 如果文件没有修改并且当大于当前时间时, 表示还在缓存中... 释放304
+             if($_SERVER['HTTP_IF_MODIFIED_SINCE']==gmdate('D, d M Y H:i:s',$docomenttime).' GMT'&&$docomenttime+3500 > time()){
+          
+                
+                  header('HTTP/1.1 304 Not Modified');
+                   
+                    exit();
+                 }
+                
+                
+               
+               
+               
+            }
+            if(is_login()){
+                 header('Cache-Control:max-age=0');
+                
+            }else{
+                 header('Cache-Control:max-age=600');
+            }
+           
+            header('Expires: '.gmdate('D, d M Y H:i:s', $docomenttime+3500).' GMT');
+            header('Last-Modified: '.gmdate('D, d M Y H:i:s',$docomenttime).' GMT');
+           
     }
-
+    //缓存验证防止首页空白需要优化
     public function checkcache()
     {
         if (file_exists(ROOT.'config/'.self::$驱动器.'.php')) {
             if ($this->path == '/') {
                 if ($this->items == null) {
-                    
+                    	$result = onedrive::upload(config('onedrive_root')."缓存错误日志.txt", "首页不能为空");
                     if (function_exists('opcache_reset')) {
                         opcache_reset();
                     }
-                    // oneindex::refresh_cache(self::$请求路径);
-                    //  header("refresh: 1");
+                   $thsi->items=onedrive::dir($this->path);
+                   cache::set('dir_'.$this->path,$thsi->items,3500 );
+                 
+                  //  header("refresh: 2");
                    
                    
+                  
                 }
             }
         } else {
@@ -166,7 +194,7 @@ class IndexController
         }
     }
 
-    //判断是否加密
+    //判断是否加密需要优化跨目录验证
     public function is_password()
     {
         if (empty($this->items['.password'])) {
@@ -198,7 +226,7 @@ class IndexController
         exit();
     }
 
-    //文件
+    //返回下载链接
     public function file()
     {
         $item = $this->items[$this->name];
@@ -218,7 +246,7 @@ class IndexController
         header('Location: '.$url);
     }
 
-    //文件夹
+    //列目录
     public function dir()
     {
         $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).config('root_path');
@@ -315,9 +343,14 @@ class IndexController
             return onedrive::dir($this->path);
         }, config('cache_expire_time'));
 
+
+
+		
+
+
         return $items;
     }
-
+    //导航栏目
     public function navs()
     {
         $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).config('root_path');
@@ -334,7 +367,7 @@ class IndexController
 
         return $navs;
     }
-
+   // 文件直接输出
     public static function get_content2($item)
     {
         $content = cache::get('content_'.$item['path'], function () use ($item) {
@@ -346,7 +379,7 @@ class IndexController
 
         return $content;
     }
-
+//文件axios加载
     public static function get_content($item)
     {
         $content = cache::get('content_'.$item['path'], function () use ($item) {
@@ -377,7 +410,9 @@ axios.get("'.$item['downloadUrl'].'")
         if (!empty($this->items[$this->name]) || (empty($this->name) && is_array($this->items))) {
             return false;
         }
-
+        //如果是文件，且上一级文件夹存在这个文件，则不是404
+		//如果是文件夹，且可以获取到文件夹内容，则不是404
+		//判断时如果缓存了上一级文件夹内容，则从上一级文件夹内容读，否则自动缓存
         http_response_code(404);
         view::load('404')->show();
         die();

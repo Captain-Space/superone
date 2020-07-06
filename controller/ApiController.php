@@ -6,6 +6,7 @@ class ApiController
   
     public $驱动器;
     public $path;
+    public $drives;
     // public $配置文件;
 public function __call($method,$ages){
 		// 遍历参数$args
@@ -23,6 +24,7 @@ public function __call($method,$ages){
     header("Access-Control-Allow-Methods: GET, POST, OPTIONS,DELETE,MOVE,PATH,COPY,RENAME,CREAT,VIEW,PUT"); 
         $varrr = explode('/', $_SERVER['REQUEST_URI']);
         $驱动器 = $varrr['1'];
+        $this->$drives=$驱动器;
         array_splice($varrr, 0, 1);
         unset($varrr['0']);
         $请求路径 = implode('/', $varrr);
@@ -55,7 +57,7 @@ public function __call($method,$ages){
     }
 //功能正常
     public function put()
-    {if(!is_login() && config("guestupload")=="off" ){http_response_code(401);exit;}
+    {if(!is_login() && config("guestupload")=="" ){http_response_code(401);exit;}
         $varrr = explode('/', $_SERVER['REQUEST_URI']);
         $驱动器 = $varrr['1'];
         array_splice($varrr, 0, 1);
@@ -116,5 +118,9 @@ public function __call($method,$ages){
         $请求路径 = str_replace('?'.$_SERVER['QUERY_STRING'], '', $请求路径);
 
         var_dump(onedrive::create_folder($请求路径, $_GET['create_folder']));
+    }
+    
+    public function cache(){
+       var_dump(oneindex::refresh_current_cache("/uploads/")) ;
     }
 }

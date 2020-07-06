@@ -30,7 +30,7 @@
         public static function get($key, $default = null, $expire = 99999999)
         {
             $value = self::c()->get($key);
-            if (!is_null($value)) {
+            if (!is_null($value)&&$value!=false) {////Mod by Steven 修改了有时缓存错误为false也重新检测
                 return $value;
             } elseif (is_callable($default)) {
                 $value = $default();
@@ -61,7 +61,10 @@
         {
             return self::set($key, null);
         }
-
+        static function gettime($key)
+		{
+			return self::c()->gettime($key);
+		}
         // 判断缓存是否设置
         public static function has($key)
         {

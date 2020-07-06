@@ -34,13 +34,13 @@ class AdminController
     }
 
     public function login()
-    {
+    {//echo "login";
         if (!empty($_POST['password']) && $_POST['password'] == config('password')) {
             setcookie('admin',config('password'));
 
             return view::direct(get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).'?/admin/');
         }
-  header('Location:/login.php');
+//  header('Location:/login.php');
         return view::load('login')->with('title', '系统管理');
     }
 
@@ -65,7 +65,7 @@ class AdminController
             config('onedrive_root', get_absolute_path($_POST['onedrive_root']));
 
             config('onedrive_hide', $_POST['onedrive_hide']);
-
+              config('appbar', $_POST['appbar']);
             config('cache_type', $_POST['cache_type']);
             config('cache_expire_time', intval($_POST['cache_expire_time']));
             config('page_item', intval($_POST['page_item']));

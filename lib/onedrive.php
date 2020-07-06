@@ -433,7 +433,7 @@ class onedrive
 
         curl_multi_close($mh);
         echo '批量处理完成';
-        var_dump($result);
+        
     }
 
     public static function get_siteidbyname($sitename, $access_token, $api_url)

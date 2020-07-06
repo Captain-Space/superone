@@ -67,10 +67,15 @@ $etime = microtime(true); //获取程序执行结束的时间
 
 $total = $etime - $stime;   //计算差值
 
-?>
-<div style="float:center;text-align:center"><font color=red">php 运行时间<?php e($total); ?>秒</font> <div>
+?><?php if(is_login()){
+    
+    echo '<div style="float:center;text-align:center"><font color=red">php 运行时间'.$total.'秒</font> <div>
+    ';
+    
+}?>
 
+<?php if(config("superload")): ?>
+<div style="float:right;text-align:center">超级预览模式流量计费请勿开启<div>
 
-
-
+<?php endif?>
 
