@@ -30,13 +30,8 @@ class IndexController
         self::$驱动器 = $驱动器;
         self::$请求路径 = $请求路径;
         
-             define('CACHE_PATH', ROOT.'cache/'.DRIVEID.'/');
-              if(!file_exists(ROOT.'cache/')){
-                 mkdir(ROOT.'cache/');
-             }
-        if (!file_exists(CACHE_PATH)) {
-            mkdir(CACHE_PATH);
-        }
+             define('CACHE_PATH', ROOT.'cache/');
+              
         
        
         //配置缓存类型
@@ -139,7 +134,7 @@ class IndexController
                     }
                     unset($this->items);
                    $this->items=onedrive::dir($this->path);
-                   cache::set('dir_'.$this->path,$this->items,600 );
+                   cache::set(DRIVEID.$this->path,$this->items,600 );
                  
                    header("refresh: 0");
                    
@@ -299,7 +294,7 @@ class IndexController
     //文件夹下元素
     public function items($path, $fetch = false)
     {
-        $items = cache::get('dir_'.$this->path, function () {
+        $items = cache::get(DRIVEID.$this->path, function () {
             return onedrive::dir($this->path);
         }, config('cache_expire_time'));
 

@@ -129,19 +129,14 @@ class ApiController
     public function cache()
     { 
      
-             define('CACHE_PATH', ROOT.'cache/'.DRIVEID.'/');
-              if(!file_exists(ROOT.'cache/')){
-                 mkdir(ROOT.'cache/');
-             }
-        if (!file_exists(CACHE_PATH)) {
-            mkdir(CACHE_PATH);
-        }
+             define('CACHE_PATH', ROOT.'cache/');
+             
         
         cache::$type = empty(config('cache_type')) ? 'filecache' : config('cache_type');
        
         echo "删除缓存".VIST_PATH;
      
-        
-        var_dump(cache::del('dir_'.VIST_PATH));
+      
+        var_dump(cache::del(DRIVEID.VIST_PATH));
 }
 }
