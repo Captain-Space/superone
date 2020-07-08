@@ -142,6 +142,6 @@ class ApiController
         echo "删除缓存".VIST_PATH;
      
         
-        var_dump(cache::del($path));
+        var_dump(cache::del('dir_'.VIST_PATH));
 }
 }
