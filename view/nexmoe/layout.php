@@ -4,14 +4,13 @@
 
     <head>
     <meta charset="utf-8">
-    
+    <meta name="google" content="notranslate" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="//cdn.jsdelivr.net">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
-     <title><?php e($title.' - '.config('site_name'));?></title>
+     <title><?php e(config('site_name').$title);?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
     
     
@@ -19,40 +18,29 @@
   
     <style>
     
-   
-        .mc-drawer {
+    body{background-color:#f2f5fa;padding-bottom:60px;background-position:center bottom;background-repeat:no-repeat;background-attachment:fixed}
+    
+    
+    
+    
+  .mc-drawer {
             background-color: rgba(255, 255, 255, 0.5);
-<?php if( oneindex::is_mobile()): ?>
- background-color: rgba(255, 255, 255, 0.8);
-<?php endif ?>
-        }
- <?php if( !oneindex::is_mobile()): ?>
-        .mdui-toolbar {
 
-            background-image: url(<?php echo config("bgimg")?>) !important;
-            
+        }
+ 
+#menu {/* 右键菜单*/
 background-position: center  0px;
 background-size: cover;
         }
-#menu {
-
-            background-image: url(<?php echo config("bgimg")?>) !important;
-            
-background-position: center  0px;
-background-size: cover;
-        }
-<?php endif?>
-
- <?php if( oneindex::is_mobile()): ?>
-        .mdui-toolbar {
-
-            background-image: url(<?php echo config("mobileimg")?>) !important;
-            color: #FFF;
-
-        }
-
-<?php endif?>
-        .mdui-toolbar>* {
+ html,body{height:100%;
+	background-color: #fff;
+	background-image:url(https://cdn.jsdelivr.net/gh/742481030/cdnimg@master/E2JNM8.jpg) !important;
+	padding-bottom: 60px;
+	background-position:auto!important;
+	background-size: cover !important;
+	background-attachment: fixed !important;
+	background-repeat: no-repeat !important;
+}    .mdui-toolbar>* {
             padding: 0 6px;
             margin: 0 2px;
             opacity: 0.5;
@@ -66,13 +54,15 @@ background-size: cover;
             padding: 0;
         }
 
-        .mdui-toolbar>a:hover,
-        a.mdui-typo-headline,
-        a.active {
+        .mdui-toolbar>a:hover, a.mdui-typo-headline, a.active {
+            opacity: 1;
+        }
+           .mdui-toolbar>a:last-child {
             opacity: 1;
         }
 
-        .mdui-container {
+
+        .mdui-container {/*内容区域*/
             max-width: 1024px;
         }
 
@@ -80,26 +70,20 @@ background-size: cover;
             -webkit-transition: none;
             transition: none;
         }
-
-        .mdui-list>.th {
-            background-color: initial;
-        }
-
         .mdui-list-item>a {
             width: 100%;
             line-height: 45px
         }
-
+        .mdui-list>.th {
+            background-color: initial;
+        }
         .mdui-row>.mdui-list>.mdui-list-item {
             margin: 0px 0px 0px 0px;
             padding: 0;
            
         }
 	
-        .mdui-toolbar>a:last-child {
-            opacity: 1;
-        }
-
+     
         #instantclick-bar {
             background: white;
 
@@ -118,7 +102,7 @@ background-size: cover;
             height: -webkit-fill-available;
         }
 
-        @media screen and (max-width:800px) {
+        @media screen and (max-width:800px) {/*小屏幕*/
             .mdui-list-item .mdui-text-right {
                display: none;
             }
@@ -127,11 +111,6 @@ background-size: cover;
                 width: 100% !important;
                 margin: 0px;
             }
-
-            .1111mdui-toolbar>* {
-                display: none;
-            }
-
             .mdui-toolbar>a:last-child,
             .mdui-toolbar>a:nth-last-of-type(2),
             .mdui-toolbar>.mdui-typo-headline,
@@ -140,6 +119,8 @@ background-size: cover;
                 display: block;
             }
         }
+        
+        
 
         .spec-col {
             padding: .9em;
@@ -199,20 +180,6 @@ background-size: cover;
             margin-left: 1px;
         }
 
-       html, body {
-            width: -webkit-fill-available;
-            height: -webkit-fill-available;
-            background-size: cover;
-            <?php if( !oneindex::is_mobile()): ?> background-image: url(<?php echo config("bgimg")?>) !important;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            <?php else: ?> background-image: url(<?php echo config("mobileimg")?>) !important;
-            background-position: center ;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            <?php endif?>
-        }
       
         
          .thumb .th {
@@ -257,89 +224,54 @@ background-size: cover;
             display: none;
         }
 
-        .mdui-checkbox-icon::after {
+
+ 
+        .mdui-checkbox-icon::after {/*复选框透明*/
             border-color: transparent;
         }
         .mdui-fab-fixed, .mdui-fab-wrapper {
    
     bottom: 64px;
 }
-        <?php echo config("cssstyle");?>
+.mdui-toolbar .nexmoe-item{
+    background-color: rgba(255, 255, 255, 0.5);
+    
+}
+        <?php echo config("cssstyle");//自定义css?>
         
     </style>
 </head>
 
-    <body class=" mdui-loaded <?php if(config("appbar")):?>mdui-drawer-body-left<?endif?> ">
-        <div class=" mdui-appbar-with-toolbar  mdui-color-theme mdui-color-theme">
-        <div class="mdui-appbar mdui-appbar-fixed   mdui-theme-layout-["color"]">
-            <div class="mdui-toolbar mdui-color-blue "><button mdui-drawer="{target: '.mc-drawer', swipe: true}"
-                    class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"><i
-                        class="mdui-icon material-icons">menu</i></button>
-                        
-                        <!---------->
-                    <div id="navess">   <?php foreach((array)$navs as $n=>$l):?>
-                    <i class="mdui-icon material-icons mdui-icon-dark" style="margin:0;">chevron_right</i>
-                    <a  href="<?php e("/".$驱动器.$l);?>"><?php e($n);?></a>
-                    <?php endforeach;?></div>
-		<!--------------->
-                        	<div class="mdui-toolbar-spacer"></div>
-
-
-                            <div id ="mangger" class="mdui-float-right " style="<?php  if($_COOKIE["moveitem"]): ?>display:block<?php endif;?><?php  if($_COOKIE["moveitem"]==""): ?>display:none<?php endif;?>">
-
-<button class="mdui-btn mdui-btn-icon  "onclick="moveitem()"><i class="mdui-icon material-icons">content_cut</i></button>
-<button class="mdui-btn mdui-btn-icon  " onclick="dellistitem()"><i class="mdui-icon material-icons">delete</i></button>
-<button class="mdui-btn mdui-btn-icon  " onclick="pastitem()"><i class="mdui-icon material-icons">content_paste</i></button>
-
-<button class="mdui-btn mdui-btn-icon"  oneclick="downall()"><i class="mdui-icon material-icons">share</i></button>
-
-                      </div>
-            
-                 
-            
-            </div>
-        </div>
-
-
-        <div class="mc-drawer mdui-drawer <?php if(!config("appbar")):?>mdui-drawer-close<?endif?>">
-            <div class="mdui-list">
-                <a class="mdui-list-item mdui-ripple " href="/"><i
-                        class="mdui-list-item-icon mdui-icon material-icons">home</i>
-                    <div class="mdui-list-item-content">首页</div>
-                </a>
- <?php 
-		
-	$filess = scandir(ROOT."config/");
-    foreach ($filess as $part) {
-        if ('.' == $part ||'..' == $part||'default.php' == $part||'default.php' == $part||'uploads.php' == $part||'uploaded.php' == $part||'base.php' == $part||".DS_Store"==$part) continue;
-        else {
-             $v=str_replace(".php","",$part);
-        echo '<a href="/'.$v.'/" class="mdui-list-item mdui-ripple">
-		    	<i class="mdui-list-item-icon mdui-icon material-icons">cloud</i>
-			    <div class="mdui-list-item-content">'.$v.'</div>
-	    	</a>';
-             }
+    <body class="  mdui-loaded">
+       
         
-        }
 
-	if($_COOKIE["admin"]==config("password@base"))	
-	echo'<a href="/install.php" class="mdui-list-item mdui-ripple">
-			<i class="mdui-list-item-icon mdui-icon material-icons">home</i>
-			<div class="mdui-list-item-content">添加新盘</div>
-		</a>';
-?>
-<?php e(config('drawer'));?><a href="https://github.com/742481030/oneindex" class="mdui-list-item mdui-ripple ">
-                    <i class="mdui-list-item-icon mdui-icon material-icons">code</i>
-                    <div class="mdui-list-item-content">Github</div>
-                </a>
-            </div>
-            <div class="copyright"></div>
-        </div>
 
-    </div>
+                    
+                   
+
+
+   
         <div class="mdui-container">
+ 
 
-            <div class="mdui-container-fluid"></div>
+
+<navs>
+            <div class="mdui-container-fluid">
+                
+                 <div class=" mdui-toolbar nexmoe-item mdui-shadow-3 folder">
+                     <a href="javascript:;" class="mdui-btn mdui-btn-icon getlink-btn"><i class="mdui-icon material-icons">link</i></a>
+                     <a class="<?php if(is_login()):?>admin<?php endif?>" href="/"><?php e(config('site_name'));?></a>
+			<?php foreach((array)$navs as $n=>$l):?>
+			<a  class="<?php if(is_login()):?>admin<?php endif?>" href="<?php e("/".$驱动器.$l);?>"><?php e($n);?></a>
+						<i class="mdui-icon material-icons mdui-icon-dark" style="margin:0;">chevron_right</i>
+			<?php endforeach;?>
+					</div>
+             </div>
+       
+           
+            </navs>
+            
             <list id="viewlist">
                 <?php endif?><?php view::section('content');?>
             <?php if($_REQUEST["type"]!="json"): ?>
@@ -414,6 +346,7 @@ background-size: cover;
       
  
          <script src="https://cdn.jsdelivr.net/combine/npm/mdui@0.4.3/dist/js/mdui.min.js,gh/mcstudios/glightbox/dist/js/glightbox.min.js,npm/aplayer/dist/APlayer.min.js,npm/js-cookie@2/src/js.cookie.min.js,gh/axios/axios@0.19.2/dist/axios.min.js"></script>
+        
          
           <script src="/view/nexmoe/manger.js"></script>
        

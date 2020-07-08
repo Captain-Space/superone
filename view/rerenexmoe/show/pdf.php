@@ -6,8 +6,6 @@ $downloadUrl = $item['downloadUrl'];
  	}else {
  		$downloadUrl = $item['downloadUrl'];
  	}
- 		header('Location: '.$item['downloadUrl']);exit();
- 	
 ?>
 <body>
 	

@@ -74,7 +74,7 @@ function share() {
 $$(function () {
   $$(".file .iframe").each(function () {
     $$(this).on("click", function () {
-      var form = $$("<form  method=post></form>")
+      var form = $$("<form target=_blank method=post></form>")
         .attr("action", $$(this).attr("href"))
         .get(0);
       $$(document.body).append(form);
@@ -101,7 +101,7 @@ $$(function () {
     $$(this).on("click", function () {
       var u = $$(this).attr("href");
 
-      var form = $$("<form  method=post></form>")
+      var form = $$("<form target=_blank method=post></form>")
         .attr("action", $$(this).attr("href"))
         .get(0);
       $$(document.body).append(form);

@@ -1,3 +1,24 @@
+/* Clipboard.js */
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd )define([],e);else{("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this).copyToClipboard=e()}}(function(){return function(){return function e(t,n,o){function r(a,i){if(!n[a]){if(!t[a]){var u="function"==typeof require&&require;if(!i&&u )return u(a,!0);if(c)return c(a,!0);var l=new Error("Cannot find module '"+a+"'");throw l.code="MODULE_NOT_FOUND",l}var s=n[a]={exports:{}};t[a][0].call(s.exports,function(e){return r(t[a][1][e]||e)},s,s.exports,e,t,n,o)}return n[a].exports}for(var c="function"==typeof require&&require ,a=0;a<o.length;a++)r(o[a]);return r}}()({1:[function(e,t,n){"use strict";var o=e("toggle-selection"),r="Copy to clipboard: #{key}, Enter";t.exports=function(e,t){var n,c,a,i,u,l,s=!1;t||(t={}),n=t.debug||!1;try{if(a=o(),i=document.createRange(),u=document.getSelection(),(l=document.createElement("span")).textContent=e,l.style.all="unset",l.style.position="fixed",l.style.top=0,l.style.clip="rect(0, 0, 0, 0)",l.style.whiteSpace="pre",l.style.webkitUserSelect="text",l.style.MozUserSelect="text",l.style.msUserSelect="text",l.style.userSelect="text",document.body.appendChild(l),i.selectNode(l),u.addRange(i),!document.execCommand("copy"))throw new Error("copy command was unsuccessful");s=!0}catch(o){n&&console.error("unable to copy using execCommand: ",o),n&&console.warn("trying IE specific stuff");try{window.clipboardData.setData("text",e),s=!0}catch(o){n&&console.error("unable to copy using clipboardData: ",o),n&&console.error("falling back to prompt"),c=function(e){var t=(/mac os x/i.test(navigator.userAgent)?"鈱�":"Ctrl")+"+C";return e.replace(/#{\s*key\s*}/g,t)}("message"in t?t.message:r),window.prompt(c,e)}}finally{u&&("function"==typeof u.removeRange?u.removeRange(i):u.removeAllRanges()),l&&document.body.removeChild(l),a()}return s}},{"toggle-selection":2}],2:[function(e,t,n){t.exports=function(){var e=document.getSelection();if(!e.rangeCount)return function(){};for(var t=document.activeElement,n=[],o=0;o <e.rangeCount;o++)n.push(e.getRangeAt(o));switch(t.tagName.toUpperCase()){case"INPUT":case"TEXTAREA":t.blur();break;default:t=null}return e.removeAllRanges(),function(){"Caret"===e.type&&e.removeAllRanges (),e.rangeCount||n.forEach(function(t){e.addRange(t)}),t&&t.focus ()}}},{}]},{},[1])(1)});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var $$ = mdui.JQ;
 
 var _wr = function (type) {
@@ -14,10 +35,7 @@ var _wr = function (type) {
 
 //监听鼠标右击事件 / 移动端长按事件
 $$(document).on("contextmenu", function (e) {
-  //   console.log(e);
 
-  //0：移动端长按（iOS 测试未通过）
-  //2：电脑端右键
 
   e.preventDefault(); //阻止冒泡，阻止默认的浏览器菜单
 
@@ -72,9 +90,27 @@ function share() {
 }
 
 $$(function () {
+    
+    
+    $$(".getlink-btn").on("click",function(){
+	var dl_link_list = Array.from($$('a[data-readypreview]'))
+        .map(x => x.href) 				  // 鎵€鏈塴ist涓殑閾炬帴
+	copyToClipboard(dl_link_list.join("\r\n"));
+	mdui.alert("复制成功");
+})
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
   $$(".file .iframe").each(function () {
     $$(this).on("click", function () {
-      var form = $$("<form target=_blank method=post></form>")
+      var form = $$("<form  method=post></form>")
         .attr("action", $$(this).attr("href"))
         .get(0);
       $$(document.body).append(form);
@@ -87,7 +123,7 @@ $$(function () {
   });
   $$(".file .dl").each(function () {
     $$(this).on("click", function () {
-      var form = $$("<form target=_blank method=post></form>")
+      var form = $$("<form  method=post></form>")
         .attr("action", $$(this).attr("href"))
         .get(0);
       $$(document.body).append(form);
@@ -97,11 +133,11 @@ $$(function () {
     });
   });
 
-  $$(".fk .fl").each(function () {
+  $$(".folder .admin").each(function () {
     $$(this).on("click", function () {
       var u = $$(this).attr("href");
 
-      var form = $$("<form target=_blank method=post></form>")
+      var form = $$("<form  method=post></form>")
         .attr("action", $$(this).attr("href"))
         .get(0);
       $$(document.body).append(form);
@@ -187,20 +223,7 @@ $$.fn.extend({
   },
 });
 var lightbox = GLightbox();
-function downall() {
-  let dl_link_list = Array.from(document.querySelectorAll("li a"))
-    .map((x) => x.href) // 所有list中的链接
-    .filter((x) => x.slice(-1) != "/"); // 筛选出非文件夹的文件下载链接
 
-  let blob = new Blob([dl_link_list.join("\r\n")], {
-    type: "text/plain",
-  }); // 构造Blog对象
-  let a = document.createElement("a"); // 伪造一个a对象
-  a.href = window.URL.createObjectURL(blob); // 构造href属性为Blob对象生成的链接
-  a.download = "folder_download_link.txt"; // 文件名称，你可以根据你的需要构造
-  a.click(); // 模拟点击
-  a.remove();
-}
 
 function thumb() {
   if ($$("#thumb i").text() == "apps") {
@@ -327,34 +350,27 @@ function sellcheckbox() {
 /////////////重建缓存
 function deldel() {
   Cookies.remove("moveitem");
-  var xhr = new XMLHttpRequest();
-  xhr.withCredentials = true;
-  xhr.addEventListener("readystatechange", function () {
-    if (this.readyState === 4) {
+  var cache = window.location.pathname;
+  if (cache == "/") {
+    cache = "/default/";
+  }
       var config = {
-        method: "post",
-        url: location.href,
+        method: "CACHE",
+        url: cache,
         headers: {
           "Cache-Control": "no-cache",
         },
       };
       axios(config)
-        .then(function (response) {
-            document.open();
-          document.write((response.data));
-          document.close();
-          location.reload();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      console.log(this.responseText);
-      // location.reload();
-    }
-  });
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+    location.reload();
+})
+.catch(function (error) {
+  console.log(error);
+});
 
-  xhr.open("GET", "/del.php");
-  xhr.send();
+
 }
 
 function logout() {

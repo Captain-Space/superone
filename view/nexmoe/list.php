@@ -11,11 +11,7 @@
 <?php if($_REQUEST["type"]=="json"){
       header('Content-type:text/json'); 
      exit(json_encode( $items,JSON_PRETTY_PRINT));}?>
-        <script>var 驱动器 = "<?php echo $驱动器; ?>"
-var 请求路径= "<?php echo $请求路径; ?>"
-var move= "<?php echo $me=str_replace("\"","\\\"",$_COOKIE["moveitem"]);
- ?>";
-</script>
+       
 <?php function file_ico($item){
             $ext = strtolower(pathinfo($item['name'], PATHINFO_EXTENSION));
             if(in_array($ext,['bmp','jpg','jpeg','png','gif','webp'])){
@@ -42,8 +38,13 @@ var move= "<?php echo $me=str_replace("\"","\\\"",$_COOKIE["moveitem"]);
         <div class="mdui-row mdui-shadow-3">
             <ul class="mdui-list">
                 <li class="mdui-list-item th" style="padding-right:36px;">
+                   
+                   <?php if(is_login()):?>
                     <label class="mdui-checkbox"><input type="checkbox" value="" id="sellall" onclick="checkall()"><i
                             class="mdui-checkbox-icon"></i></label>
+                            
+                           <?endif;?> 
+                            
                     <div class="mdui-col-xs-12  mdui-col-sm-7 ">文件 <i class="mdui-icon material-icons icon-sort"
                             data-sort="name" data-order="downward">expand_more</i></div>
                     <div class=" mdui-col-sm-3  mdui-text-right">修改时间 <i class="mdui-icon material-icons icon-sort"
@@ -58,14 +59,18 @@ var move= "<?php echo $me=str_replace("\"","\\\"",$_COOKIE["moveitem"]);
                 <?php foreach((array)$items as $item):?>
                 <?php if(!empty($item['folder'])):?>
 
-                <li id="<?php echo$item["id"] ?>" class="mdui-list-item mdui-ripple ?>" data-sort data-sort-name="<?php e($item['name']);?>"
+                <li id="<?php echo$item["id"] ?>" class="mdui-list-item mdui-ripple folder" data-sort data-sort-name="<?php e($item['name']);?>"
                     data-sort-date="<?php echo $item['lastModifiedDateTime'];?>"
                     data-sort-size="<?php echo $item['size'];?>" style="padding-right:36px; ">
+                    
+                    <?php if(is_login()):?>
                     <label class="mdui-checkbox">
                         <input type="checkbox" value="<?php echo$item["id"] ?>" name="itemid" /
                             onclick="onClickHander()">
                         <i class="mdui-checkbox-icon"></i></label>
-                    <a class="fl" href="<?php echo "/". $驱动器."/". $url.rawurlencode($item['name'])."/";?>">
+                        
+                         <?endif;?> 
+                    <a class="<?php if(is_login()):?>admin<?php endif;?>" href="<?php echo "/". $驱动器."/". $url.rawurlencode($item['name'])."/";?>">
                         <div id="<?php echo$item["id"] ?>" class="mdui-col-xs-12 mdui-col-sm-7 mdui-text-truncate">
                             <i class="mdui-icon material-icons">folder_open</i>
                             <span><?php e($item['name']);?></span>
@@ -82,10 +87,14 @@ var move= "<?php echo $me=str_replace("\"","\\\"",$_COOKIE["moveitem"]);
                 <li id="<?php echo$item["id"] ?>" class="mdui-list-item file mdui-ripple" data-sort
                     data-sort-name="<?php e($item['name']);?>"
                     data-sort-date="<?php echo $item['lastModifiedDateTime'];?>"
-                    data-sort-size="<?php echo $item['size'];?>" .> <label class="mdui-checkbox">
+                    data-sort-size="<?php echo $item['size'];?>" .>
+                    <?php if(is_login()):?>
+                     <label class="mdui-checkbox">
                         <input type="checkbox" value="<?php echo$item["id"] ?>" name="itemid" /
                             onclick="onClickHander()">
                         <i class="mdui-checkbox-icon"></i></label>
+                         <?endif;?> 
+                        
                     <a <?php echo file_ico($item)=="image"?'class="glightbox"':"";echo file_ico($item)=="ondemand_video"?'class="iframe"':"";echo file_ico($item)=="audiotrack"?'class="audio"':"";echo file_ico($item)=="insert_drive_file"?'class="dl"':""?>
                         data-name="<?php e($item['name']);?>"
                         data-readypreview="<?php echo strtolower(pathinfo($item['name'], PATHINFO_EXTENSION));?>"
@@ -176,7 +185,7 @@ var move= "<?php echo $me=str_replace("\"","\\\"",$_COOKIE["moveitem"]);
 <?php endif;?>
 <?php
 
-if (    ( !is_login() && config("guestpreload") )   ||  (is_login()&&config("adminpreload"))               ) {
+if (    ( !is_login() && config("guestpreload") )             ) {
     
     
     $i=0;
@@ -195,4 +204,9 @@ $i++;
     }
 }
 ?>
+ <script>var 驱动器 = "<?php echo $驱动器; ?>"
+var 请求路径= "<?php echo $请求路径; ?>"
+var move= "<?php echo $me=str_replace("\"","\\\"",$_COOKIE["moveitem"]);
+ ?>";
+</script>
 <?php view::end('content');?>
