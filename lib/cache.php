@@ -1,5 +1,6 @@
 <?php
 
+//修改时间2020年7.7日5.14
     !defined('CACHE_PATH') && define('CACHE_PATH', sys_get_temp_dir().'/');
     class cache
     {
@@ -30,7 +31,7 @@
         public static function get($key, $default = null, $expire = 99999999)
         {
             $value = self::c()->get($key);
-            if (!is_null($value)&&$value!=false) {////Mod by Steven 修改了有时缓存错误为false也重新检测
+            if (!is_null($value) && $value != false) {
                 return $value;
             } elseif (is_callable($default)) {
                 $value = $default();
@@ -61,10 +62,12 @@
         {
             return self::set($key, null);
         }
-        static function gettime($key)
-		{
-			return self::c()->gettime($key);
-		}
+
+        public static function gettime($key)
+        {
+            return self::c()->gettime($key);
+        }
+
         // 判断缓存是否设置
         public static function has($key)
         {
@@ -84,6 +87,7 @@
             return $value;
         }
 
+        //刷新缓存
         public static function refresh_cache($path, $next = true)
         {
             $path2 = onedrive::urlencode($path);

@@ -1,17 +1,24 @@
 <?php
-require __DIR__.'/init.php';
 
+require __DIR__.'/init.php';
+if (PHP_VERSION <= 7) {
+    echo '最低要求7.0,当前版本'.PHP_VERSION;
+    exit;
+}
+if (!function_exists('curl_init')) {
+    echo '没有安装curl';
+    exit;
+}
 ////////////////////////////////系统初始化///////////
     if (!file_exists(ROOT.'config/base.php')) {
         $default_config = array(
-            
-            'qqlogin' => '',
-            
+            'qqlogin' => '1',
+
             'cssstyle' => '',
             'guestpreload' => '1',
-            'adminpreload'=>"1",
-            
-            'bgimg' => 'https://cdn.jsdelivr.net/gh/SeireiA/Seirei@latest/usr/uploads/2020/07/1366416900.png',
+            'adminpreload' => '1',
+
+            'bgimg' => 'https://cdn.jsdelivr.net/gh/742481030/cdnimg@master/E2JNM8.jpg',
             'mobileimg' => 'https://cdn.jsdelivr.net/gh/SeireiA/Seirei@latest/usr/uploads/2020/07/1366416900.png',
             'update' => 'on',
             'guestupload' => '',
@@ -27,6 +34,7 @@ require __DIR__.'/init.php';
             'cache_refresh_time' => 600,
             'page_item' => 50,
             'root_path' => '',
+            'onedrive_hide' => 'uploads',
             'show' => array(
             'stream' => ['txt', 'html'],
             'image' => ['bmp', 'jpg', 'jpeg', 'png', 'gif', 'webp'],
@@ -42,44 +50,57 @@ require __DIR__.'/init.php';
 
         config('@base', $default_config);
         setcookie('admin', 'oneindex');
-        header('refresh: 1');
-        echo '初始化成功';
+        header('refresh: 3');
+        echo '初始化成功 等待3秒刷新
+        
+       nginx必须设置伪静态
+            if (!-f $request_filename){
+set $rule_0 1$rule_0;
+}
+if (!-d $request_filename){
+set $rule_0 2$rule_0;
+}
+if ($rule_0 = "21"){
+rewrite ^/(.*)$ /index.php/$1 last;
+}
+            
+           <br> ';
+        
+        
+       
         exit;
     }
 
 ///////////////// 权限认证/////////////
 
         if ($_COOKIE['admin'] !== config('password@base')) {
-            echo '<a href="/admin">登陆</a>';
+            echo '<a href="/login.php">登陆</a>';
             die('未授权');
         }
 
 if ($_GET['filename']) {
     if ($_GET['drivestype'] == 'cn') {
         $data = array(
-        'drivestype' => 'cn',   
+        'drivestype' => 'cn',
         'share' => 'on',
-        'onedrive_root'=>'/',
+        'onedrive_root' => '/',
         'client_secret' => 'v4[Nq:4=rmFS78BwYi[@x3sGk-iY.U:S',
         'client_id' => '3447f073-eef3-4c60-bb68-113a86f2c39a',
         'redirect_uri' => 'https://coding.mxin.ltd/',
         'api' => 'https://microsoftgraph.chinacloudapi.cn/v1.0/me/drive/root',
         'api_url' => 'https://microsoftgraph.chinacloudapi.cn/v1.0',
-        'oauth_url' => 'https://login.partner.microsoftonline.cn/common/oauth2/v2.0',);
-        
-    } 
-    else{
+        'oauth_url' => 'https://login.partner.microsoftonline.cn/common/oauth2/v2.0', );
+    } else {
         $data = array(
         'drivestype' => 'us',
         'share' => 'on',
-        'onedrive_root'=>'/',
+        'onedrive_root' => '/',
         'client_secret' => '~ZkpvnVoMysK36v0_Og1EPp.l3JA_NY-9a',
         'client_id' => '02be423f-f28c-48de-b265-09327e1a04eb',
         'redirect_uri' => 'https://coding.mxin.ltd/',
         'api' => 'https://graph.microsoft.com/v1.0/me/drive/root',
         'api_url' => 'https://graph.microsoft.com/v1.0',
         'oauth_url' => 'https://login.microsoftonline.com/common/oauth2/v2.0',
-        
             );
     }
 

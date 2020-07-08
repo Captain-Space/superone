@@ -1,14 +1,20 @@
 <?php
+
 ini_set('memory_limit', '1228M');
 $stime = microtime(true);
 error_reporting(E_ALL & ~E_NOTICE);
 date_default_timezone_set('PRC');
 define('TIME', time());
-define('SOFTVERSION', 9.8);
+define('SOFTVERSION', 11);
 !defined('ROOT') && define('ROOT', str_replace('\\', '/', dirname(__FILE__)).'/');
 !defined('CONFIG_PATH') && define('CONFIG_PATH', ROOT.'config/');
 !defined('CONTROLLER_PATH') && define('CONTROLLER_PATH', ROOT.'controller/');
-if(file_exists(ROOT.'vendor/autoload.php')){require_once ROOT.'vendor/autoload.php';}
+define('DRIVEID',drives());
+define('VIST_PATH',visit_path());
+define('URI',URI());
+if (file_exists(ROOT.'vendor/autoload.php')) {
+    require_once ROOT.'vendor/autoload.php';
+}
 
 //__autoload方法
 function i_autoload($className)
@@ -32,8 +38,9 @@ spl_autoload_register('i_autoload');
 if (!function_exists('config')) {
     function config($key)
     {
-        if(!file_exists(ROOT."/config/"))
-        {mkdir(ROOT."/config/");}
+        if (!file_exists(ROOT.'/config/')) {
+            mkdir(ROOT.'/config/');
+        }
         static $configs = array();
         list($key, $file) = explode('@', $key, 2);
         $file = empty($file) ? 'base' : $file;
@@ -94,7 +101,7 @@ if (!function_exists('access_token')) {
             config('api@'.$驱动器, $api);
             echo '配置sharepoint成功<br>';
             echo '<a href="/'.$驱动器.'">授权成功</a>';
-            cache::refresh_cache(get_absolute_path(config('onedrive_root')));
+            cache::clear();
             cache::clear_opcache();
 
             exit;
@@ -156,20 +163,7 @@ if (!function_exists('access_token')) {
         $response;
         if (!empty($response['refresh_token'])) {
             
-           
-            echo 'nginx必须设置伪静态
-            if (!-f $request_filename){
-set $rule_0 1$rule_0;
-}
-if (!-d $request_filename){
-set $rule_0 2$rule_0;
-}
-if ($rule_0 = "21"){
-rewrite ^/(.*)$ /index.php/$1 last;
-}
-            
-           <br> ';
-            
+
             config('refresh_token@'.$驱动器, $response['refresh_token']);
             config('access_token@'.$驱动器, $response['access_token']);
 
@@ -182,7 +176,7 @@ rewrite ^/(.*)$ /index.php/$1 last;
  　　<input type="submit" value="站点id" />
      </form>';
 
-            cache::refresh_cache(get_absolute_path(config('onedrive_root')));
+            cache::clear();
 
             // 清除php文件缓存
             cache::clear_opcache();
@@ -197,12 +191,14 @@ rewrite ^/(.*)$ /index.php/$1 last;
         } else {
             if (!is_login()) {
                 echo ' 未登陆';
-                echo '<a href="/login.php">登陆</a>';
+                echo '<a href="/admin">登陆</a>';
                 exit;
             }
- if(config("password")=="oneindex"){echo "你的密码是默认密码oneindex请修改后添加";
-echo'<a href="/?/admin/setpass">点这里修改密码</a>';
- exit;}
+            if (config('password') == 'oneindex') {
+                echo '你的密码是默认密码oneindex请修改后添加';
+                echo'<a href="/?/admin/setpass">点这里修改密码</a>';
+                exit;
+            }
             $oauthurl = $配置文件['oauth_url'];
             $client_id = $配置文件['client_id'];
             if ($_SERVER['REQUEST_URI'] == '/') {
@@ -212,7 +208,7 @@ echo'<a href="/?/admin/setpass">点这里修改密码</a>';
             $授权地址 = $oauthurl.'/authorize?client_id='.$client_id.'&scope=offline_access+files.readwrite.all+Sites.ReadWrite.All&response_type=code&redirect_uri=https://coding.mxin.ltd&state='.$redirect_uri;
             echo '<a href="'.$授权地址.'">授权应用</a>';
             cache::refresh_cache(get_absolute_path(config('onedrive_root')));
-            
+
             // 清除php文件缓存
             cache::clear_opcache();
         }
@@ -221,7 +217,7 @@ echo'<a href="/?/admin/setpass">点这里修改密码</a>';
     }
     }
 
-         return $token['access_token'];
+        return $token['access_token'];
 
         //endsub
     }
@@ -330,3 +326,105 @@ function check_version()
 {
     return  fetch::get('https://pan.mxin.ltd/version.json')->content;
 }
+
+if (!function_exists('str_is')) {
+    function str_is($pattern, $value)
+    {
+        if (is_null($pattern)) {
+            $patterns = [];
+        }
+        $patterns = !is_array($pattern) ? [$pattern] : $pattern;
+        if (empty($patterns)) {
+            return false;
+        }
+        foreach ($patterns as $pattern) {
+            if ($pattern == $value) {
+                return true;
+            }
+            $pattern = preg_quote($pattern, '#');
+            $pattern = str_replace('\*', '.*', $pattern);
+            if (preg_match('#^'.$pattern.'\z#u', $value) === 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+if (!function_exists('get_domain')) {
+    function get_domain($url = null)
+    {
+        if (is_null($url)) {
+            return $_SERVER['HTTP_HOST'];
+        }
+
+        return strstr(ltrim(strstr($url, '://'), '://'), '/', true);
+    }
+}
+
+
+
+
+
+
+
+
+ function drives()
+    {
+        $requesturi = explode('/', $_SERVER['REQUEST_URI']);
+if ($requesturi['1']==""){
+   $requesturi['1']="default"; 
+}
+        return $requesturi['1'];
+    }
+
+    function visit_path()
+    {
+        $requesturi = explode('/', $_SERVER['REQUEST_URI']);
+
+        array_splice($requesturi, 0, 1);
+        unset($requesturi['0']);
+$path=str_replace('?'.$_SERVER['QUERY_STRING'], '', implode('/', $requesturi));
+
+        return  "/".$path; 
+    }
+
+function URI(){
+    $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
+     
+     return   $url = $http_type.$_SERVER['HTTP_HOST'].'/'.DRIVEID.$root.visit_path();
+    
+}
+function load_config($driveid=DRIVEID)
+{
+    
+        if (file_exists(ROOT.'config/'.$driveid.'.php')) {
+            $configfile = include ROOT.'config/'.DRIVEID.'.php';
+        }
+    
+      if ($configfile['drivestype'] == 'cn') {
+            onedrive::$api_url = 'https://microsoftgraph.chinacloudapi.cn/v1.0';
+            onedrive::$oauth_url = 'https://login.partner.microsoftonline.cn/common/oauth2/v2.0';
+        } else {
+            onedrive::$api_url = 'https://graph.microsoft.com/v1.0';
+            onedrive::$oauth_url = 'https://login.microsoftonline.com/common/oauth2/v2.0';
+        }
+        onedrive::$api=$configfile['api'];
+        onedrive::$client_id = $configfile['client_id'];
+        onedrive::$client_secret = $configfile['client_secret'];
+        onedrive::$redirect_uri = $configfile['redirect_uri'];
+        onedrive::$typeurl = $configfile['api'];
+        onedrive::$access_token = access_token($configfile, $driveid);
+if (!is_login()) {
+            if ($configfile['share'] == 'off') {
+                die('管理员可见') ;
+                
+            }
+        }
+   
+    return $configfile;
+    
+    
+}
+
+

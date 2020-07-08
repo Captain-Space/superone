@@ -1,5 +1,6 @@
 <?php
 
+//模版引擎2200707 格式化
 !defined('VIEW_PATH') && define('VIEW_PATH', 'view/');
 class view
 {

@@ -1,5 +1,6 @@
 <?php
 
+//修改时间 20200707 格式化
 class fetch
 {
     public static $headers = 'User-Agent:Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36';

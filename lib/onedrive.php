@@ -1,7 +1,6 @@
 <?php
 
-use GuzzleHttp\Client;
-
+//修改时间2020年7.7日5.14
 class onedrive
 {
     public static $client_id;
@@ -27,28 +26,6 @@ class onedrive
         }
 
         return $url;
-    }
-
-    public static function test($url, $type = 'cn')
-    {
-        $配置文件 = require ROOT.'config/default.php';
-
-        if ($type == 'cn') {
-            $api = 'https://microsoftgraph.chinacloudapi.cn/v1.0/';
-        } else {
-            $api = 'https://graph.microsoft.com/v1.0/';
-        }
-        $apc = new Client([
-            'base_uri' => $api,
-            'headers' => [
-                'Accept' => 'application/json',
-                'Authorization' => $配置文件['access_token'],
-                'Content-Type' => 'application/json',
-            ],
-            'http_errors' => false,
-        ]);
-
-        return json_decode($apc->get($url)->getBody());
     }
 
     //使用 $code, 获取 $refresh_token
@@ -172,6 +149,7 @@ class onedrive
         }
     }
 
+    //文件重命名 by github
     public static function rename($itemid, $name)
     {
         $access_token = self::$access_token;
@@ -201,19 +179,11 @@ class onedrive
         var_dump($response);
     }
 
+    //文件删除 by by bygithub.com/742481030/oneindex
     public static function delete($itemid = array())
     {
-        $varrr = explode('/', $_SERVER['REQUEST_URI']);
-        $驱动器 = $varrr['1'];
-        array_splice($varrr, 0, 1);
-        unset($varrr['0']);
-        $请求路径 = implode('/', $varrr);
-        $请求路径 = self::urlencode(str_replace('?'.$_SERVER['QUERY_STRING'], '', $请求路径));
-        $path = empty($请求路径) ? '/' : ":/{$请求路径}:/";
-        $配置文件 = require ROOT.'config/'.$驱动器.'.php';
-
-        $access_token = $配置文件['access_token'];
-        $apie = str_replace('root', 'items/', $配置文件['api']);
+        $access_token = self::$access_token;
+        $apie = str_replace('root', 'items/', self::$api);
 
         $apis = array();
 
@@ -286,6 +256,7 @@ class onedrive
         echo '批量处理完成';
     }
 
+    //文件路径转itemsid by bygithub.com/742481030/oneindex
     public static function pathtoid($access_token, $path)
     {
         $request = self::request(urldecode($path));
@@ -296,19 +267,13 @@ class onedrive
         return $data['id'];
     }
 
+    //剪切文件 by  github.com/742481030/oneindex
     public static function movepast($itemid, $newitemid)
     {
-        $varrr = explode('/', $_SERVER['REQUEST_URI']);
-        $驱动器 = $varrr['1'];
-        array_splice($varrr, 0, 1);
-        unset($varrr['0']);
-
-        $配置文件 = require ROOT.'config/'.$驱动器.'.php';
-        onedrive::$typeurl = $配置文件['api'];
-        onedrive::$access_token = access_token($配置文件, $驱动器);
+        
+        
         $api = str_replace('root', 'items/'.$itemid, self::$typeurl);
-        $access_token = self::$access_token;
-
+       
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $api,
@@ -333,15 +298,12 @@ class onedrive
         echo $id.'完成';
     }
 
+    //通过id下载文件 by github.com/742481030/oneindex/one index
     public static function downloadbyid($itemid)
     {
-        $varrr = explode('/', $_SERVER['REQUEST_URI']);
-        $驱动器 = $varrr['1'];
-        array_splice($varrr, 0, 1);
-        unset($varrr['0']);
-        $配置文件 = require ROOT.'config/'.$驱动器.'.php';
-        $token = $配置文件['access_token'];
-        $api = str_replace('root', 'items/', $配置文件['api']);
+        
+        $token = self::$access_token;
+        $api = str_replace('root', 'items/', self::$api);
 
         $request['headers'] = "Authorization: bearer {$token}".PHP_EOL.'Content-Type: application/json'.PHP_EOL;
         $request['url'] = $api.$itemid;
@@ -352,23 +314,19 @@ class onedrive
         header('Location:'.$ss);
     }
 
+    //文件批量移动 by  github.com/742481030/oneindex/oneindex
     public static function 批量移动($itemid = array(), $newitemid)
     {
-        $varrr = explode('/', $_SERVER['REQUEST_URI']);
-        $驱动器 = $varrr['1'];
-        array_splice($varrr, 0, 1);
-        unset($varrr['0']);
-        $配置文件 = require ROOT.'config/'.$驱动器.'.php';
-        $token = $配置文件['access_token'];
-        echo  $typeurl = $配置文件['api'];
+        
+       
         var_dump($itemid);
         $apis = array();
-        $api = str_replace('root', 'items/', $typeurl);
+        $api = str_replace('root', 'items/', self::$typeurl);
         for ($i = 0; $i < count($itemid); ++$i) {
             $apis[$i] = $api.$itemid[$i];
         }
 
-        //  $api=str_replace("root","items/".$itemid,$typeurl) ;
+       
         $result = $res = $ch = array();
         $nch = 0;
         $mh = curl_multi_init();
@@ -385,7 +343,7 @@ class onedrive
                 CURLOPT_CUSTOMREQUEST => 'PATCH',
                 CURLOPT_POSTFIELDS => "{\n  \"parentReference\": {\n    \"id\": \"".$newitemid."\"\n  }\n  \n}",
                 CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer '.$token,
+                    'Authorization: Bearer '.self::$access_token,
                     'Content-Type: application/json',
                 ),
             ));
@@ -436,6 +394,7 @@ class onedrive
         
     }
 
+    //获取站点id  github.com/742481030/oneindex/oneindex
     public static function get_siteidbyname($sitename, $access_token, $api_url)
     {
         $request['headers'] = "Authorization: bearer {$access_token}".PHP_EOL.'Content-Type: application/json'.PHP_EOL;
@@ -451,7 +410,8 @@ class onedrive
         return $siteidurl = $datass['id'];
     }
 
-    public static function create_folder($path="/", $name = '新建文件夹')
+    //新建文件夹 by  github.com/742481030/oneindex/oneindex
+    public static function create_folder($path = '/', $name = '新建文件夹')
     {
         $path = self::urlencode($path);
         $path = empty($path) ? '/' : ":/{$path}:/";
@@ -490,6 +450,18 @@ class onedrive
         return @$data[$size]['url'];
     }
 
+    //分享链接
+    public static function share($path)
+    {
+        $request = self::request($path, 'createLink');
+        $post_data['type'] = 'view';
+        $post_data['scope'] = 'anonymous';
+        $resp = fetch::post($request, json_encode($post_data));
+        $data = json_decode($resp->content, true);
+
+        return $data;
+    }
+
     //简单文件上传函数
     public static function upload($path, $content)
     {
@@ -516,6 +488,7 @@ class onedrive
         return trim($location);
     }
 
+    //上传会话
     public static function create_upload_session($path)
     {
         $request = self::request($path, 'createUploadSession');
@@ -530,6 +503,7 @@ class onedrive
         return $data;
     }
 
+    //分块上传
     public static function upload_session($url, $file, $offset, $length = 10240)
     {
         $token = self::access_token();
@@ -550,6 +524,7 @@ class onedrive
         return $data;
     }
 
+    //文件上传进度
     public static function upload_session_status($url)
     {
         $token = self::access_token();
@@ -560,6 +535,7 @@ class onedrive
         return $data;
     }
 
+    //删除上传会话
     public static function delete_upload_session($url)
     {
         $token = self::access_token();
@@ -570,6 +546,7 @@ class onedrive
         return $data;
     }
 
+    //获取文件信息
     public static function file_content($file, $offset, $length)
     {
         $handler = fopen($file, 'rb') or die('获取文件内容失败');
@@ -578,6 +555,7 @@ class onedrive
         return fread($handler, $length);
     }
 
+    //文件大小格式化
     public static function human_filesize($size, $precision = 1)
     {
         for ($i = 0; ($size / 1024) > 1; $i++, $size /= 1024) {
@@ -586,6 +564,7 @@ class onedrive
         return round($size, $precision).(['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][$i]);
     }
 
+    //路径转码
     public static function urlencode($path)
     {
         foreach (explode('/', $path) as $k => $v) {
@@ -597,6 +576,7 @@ class onedrive
         return @join('/', $paths);
     }
 
+    //文件大小
     public static function _filesize($path)
     {
         if (!file_exists($path)) {

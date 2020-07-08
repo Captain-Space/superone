@@ -1,5 +1,6 @@
 <?php
 
+//核心路由类
 class route
 {
     public static $uri;

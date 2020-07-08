@@ -1,19 +1,11 @@
 {
-    "name": "jane/jane",
-    "require": {
-        "guzzlehttp/guzzle": "^6.5"
-      
-    },
-    	"autoload": {
-    	    
+	"name": "jane/jane",
+	"require": {
+		"guzzlehttp/guzzle": "^6.5"
+	},
+	"autoload": {
 		"psr-4": {
 			"jane\\": "lib"
-	
 		}
-    	 
-    	    
-    	    
-    	    
-    	    
-    	}
+	}
 }

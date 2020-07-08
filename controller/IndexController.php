@@ -29,55 +29,23 @@ class IndexController
        
         self::$驱动器 = $驱动器;
         self::$请求路径 = $请求路径;
-        //缓存路径不存在就创建
-        if(is_login()){
-             define('CACHE_PATH', ROOT.'cache/'.$驱动器.'-admin/');
-             if(!file_exists(ROOT.'cache/')){
-                 mkdir(ROOT.'cache/');
-             }
-        if (!file_exists(CACHE_PATH)) {
-          
-            mkdir(CACHE_PATH);
-        }
-        }else{
-             define('CACHE_PATH', ROOT.'cache/'.$驱动器.'/');
+        
+             define('CACHE_PATH', ROOT.'cache/'.DRIVEID.'/');
               if(!file_exists(ROOT.'cache/')){
                  mkdir(ROOT.'cache/');
              }
         if (!file_exists(CACHE_PATH)) {
             mkdir(CACHE_PATH);
         }
-        }
+        
        
         //配置缓存类型
         cache::$type = empty(config('cache_type')) ? 'filecache' : config('cache_type');
+     
         //加载配置文件
-        if (file_exists(ROOT.'config/'.$驱动器.'.php')) {
-            $配置文件 = include ROOT.'config/'.$驱动器.'.php';
-        } elseif (!file_exists(ROOT.'config/base.php') or !file_exists(ROOT.'config/default.php')) {
-            header('Location: /install.php');
-        }
+       
 
-        //初始化配置文件start
-        if ($配置文件['drivestype'] == 'cn') {
-            onedrive::$api_url = 'https://microsoftgraph.chinacloudapi.cn/v1.0';
-            onedrive::$oauth_url = 'https://login.partner.microsoftonline.cn/common/oauth2/v2.0';
-        } else {
-            onedrive::$api_url = 'https://graph.microsoft.com/v1.0';
-            onedrive::$oauth_url = 'https://login.microsoftonline.com/common/oauth2/v2.0';
-        }
-        onedrive::$client_id = $配置文件['client_id'];
-        onedrive::$client_secret = $配置文件['client_secret'];
-        onedrive::$redirect_uri = $配置文件['redirect_uri'];
-        onedrive::$typeurl = $配置文件['api'];
-        onedrive::$access_token = access_token($配置文件, $驱动器);
-
-        if (!is_login()) {
-            if ($配置文件['share'] == 'off') {
-                die('管理员可见') ;
-                
-            }
-        }
+         load_config();
 
         ///初始化配置文件完成
 
@@ -104,21 +72,11 @@ class IndexController
 
     public function index()
     {
+        
         header("X-Powered-By:  Shanghai Mingxin Technology Co., Ltd."); 
         header("Access-Control-Allow-Origin: *"); 
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS,VIEW"); 
         
-       // $file = include(CACHE_PATH . urldecode('dir_'.str_replace("/","-",$this->path)). '.php');
-        
-      // echo $file["expire"]."<br>";
-      //  echo TIME;exit;
-        
-        
-
-
-
-
-        //是否404
         $this->is404();
         $this->checkcache();
         //验证缓存是否异常
@@ -141,6 +99,7 @@ class IndexController
         $docomenttime= cache::gettime('dir_'.$this->path);
        
       
+      if(is_login()){return;}
             if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
                 
                 // 如果文件没有修改并且当大于当前时间时, 表示还在缓存中... 释放304
@@ -157,12 +116,12 @@ class IndexController
                
                
             }
-            if(is_login()){
+            
                  header('Cache-Control:max-age=0');
                 
-            }else{
+           
                  header('Cache-Control:max-age=600');
-            }
+            
            
             header('Expires: '.gmdate('D, d M Y H:i:s', $docomenttime+3500).' GMT');
             header('Last-Modified: '.gmdate('D, d M Y H:i:s',$docomenttime).' GMT');
@@ -178,10 +137,11 @@ class IndexController
                     if (function_exists('opcache_reset')) {
                         opcache_reset();
                     }
-                   $thsi->items=onedrive::dir($this->path);
-                   cache::set('dir_'.$this->path,$thsi->items,3500 );
+                    unset($this->items);
+                   $this->items=onedrive::dir($this->path);
+                   cache::set('dir_'.$this->path,$this->items,600 );
                  
-                  //  header("refresh: 2");
+                   header("refresh: 0");
                    
                    
                   

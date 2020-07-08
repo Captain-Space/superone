@@ -1,5 +1,5 @@
 <?php
-
+//应用入口
 require __DIR__.'/init.php';
 
 if (!file_exists(ROOT.'config/base.php') or !file_exists(ROOT.'config/default.php')) {
@@ -13,8 +13,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
       break;
     default:
-        route::any('{path:#all}', 'ApiController@'.$_SERVER["REQUEST_METHOD"]);exit;
-        // require_once ROOT.'lib/api.php';//如果文件管理功能异常,注销上面用这个;
+        route::any('{path:#all}', 'ApiController@'.$_SERVER['REQUEST_METHOD']); exit;
+
          exit;
 }
 
@@ -61,21 +61,10 @@ if (($_COOKIE['admin'] == config('password') || $images['public'])) {
     }
 }
 
-route::any('{path:#all}', 'IndexController@index');
+/*
+ *    列目录
+ */
 
-$etime = microtime(true); //获取程序执行结束的时间
+    route::any('{path:#all}', 'IndexController@index');
 
-$total = $etime - $stime;   //计算差值
-
-?><?php if(is_login()){
-    
-    echo '<div style="float:center;text-align:center"><font color=red">php 运行时间'.$total.'秒</font> <div>
-    ';
-    
-}?>
-
-<?php if(config("superload")): ?>
-<div style="float:right;text-align:center">超级预览模式流量计费请勿开启<div>
-
-<?php endif?>
 
