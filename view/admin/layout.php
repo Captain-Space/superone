@@ -20,29 +20,16 @@
 <?php $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME']));?>
 <div class="mdui-drawer" id="main-drawer">
   <div class="mdui-list">
-	<a	<a href="<?php echo $root?>?/admin/supercache" class="mdui-list-item">
+	<a href="<?php echo $root?>?/admin/drives" class="mdui-list-item">
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe8b8;</i>
-      <div class="mdui-list-item-content">超级缓存</div>
+      <div class="mdui-list-item-content">多盘配置</div>
     </a>
-		<a href="<?php echo $root?>?/admin/update" class="mdui-list-item">
-      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe8b8;</i>
-      <div class="mdui-list-item-content">更新设置</div>
-    </a>
-   
 	<a href="<?php echo $root?>?/admin" class="mdui-list-item">
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe8b8;</i>
       <div class="mdui-list-item-content">基本设置</div>
     </a>
    
-    <a href="<?php echo $root?>?/admin/drives" class="mdui-list-item">
-      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe8b8;</i>
-      <div class="mdui-list-item-content">多盘配置</div>
-    </a>
-     <a href="<?php echo $root?>?/admin/daili" class="mdui-list-item">
-      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe53b;</i>
-      <div class="mdui-list-item-content">代理设置</div>
-    </a>
-      
+    
   
     
 
@@ -51,10 +38,7 @@
       <div class="mdui-list-item-content">展示设置</div>
     </a>
 
-    <a href="<?php echo $root?>?/admin/images" class="mdui-list-item">
-      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe410;</i>
-      <div class="mdui-list-item-content">图床设置</div>
-    </a>
+   
 
    <a href="<?php echo $root?>?/admin/offline" class="mdui-list-item">
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe2c6;</i>
@@ -65,14 +49,7 @@
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe88d;</i>
       <div class="mdui-list-item-content">密码修改</div>
     </a>
-    
-    
-    
-    
-    
-
-    
-    
+   
     
     <a href="https://login.partner.microsoftonline.cn/" class="mdui-list-item" target="_blank">
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe2bf;</i>

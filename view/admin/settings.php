@@ -4,7 +4,7 @@
 <div class="mdui-container-fluid">
 
 	<div class="mdui-typo">
-	  <h1> 基本设置 <small>设置基本参数</small></h1>
+	  <h1> 基本设置 <small>设置基本参数,没有时间设计后台有兴趣fork 给个前端就行</small></h1>
 	</div>
 	<form action="" method="post">
 		<div class="mdui-textfield">

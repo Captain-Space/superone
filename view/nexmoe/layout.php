@@ -348,7 +348,7 @@ background-size: cover;
          <script src="https://cdn.jsdelivr.net/combine/npm/mdui@0.4.3/dist/js/mdui.min.js,gh/mcstudios/glightbox/dist/js/glightbox.min.js,npm/aplayer/dist/APlayer.min.js,npm/js-cookie@2/src/js.cookie.min.js,gh/axios/axios@0.19.2/dist/axios.min.js"></script>
         
          
-          <script src="/view/nexmoe/manger.js"></script>
+          <script src="/view/nexmoe/manger-11.js"></script>
        
 
        
