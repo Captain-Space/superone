@@ -15,13 +15,16 @@ class IndexController
 
      function __construct()
     {
+       
+   
+    
         $requesturi = explode('/', $_SERVER['REQUEST_URI']);
-        $驱动器 = $requesturi['1'];
+        $驱动器 =drives();
         array_splice($requesturi, 0, 1);
         unset($requesturi['0']);
 
         $请求路径 = implode('/', $requesturi);
-        $请求路径 = str_replace('?'.$_SERVER['QUERY_STRING'], '', $请求路径);
+    $请求路径 = str_replace('?'.$_SERVER['QUERY_STRING'], '', $请求路径);
 
         if ($驱动器 == '') {
             $驱动器 = 'default';
@@ -63,9 +66,9 @@ class IndexController
     public function index()
     {
         
-        header("X-Powered-By:  Shanghai Mingxin Technology Co., Ltd."); 
-        header("Access-Control-Allow-Origin: *"); 
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS,VIEW"); 
+       // header("X-Powered-By:  Shanghai Mingxin Technology Co., Ltd."); 
+       // header("Access-Control-Allow-Origin: *"); 
+       // header("Access-Control-Allow-Methods: GET, POST, OPTIONS,VIEW"); 
         
         $this->is404();
         $this->checkcache();
@@ -81,6 +84,7 @@ class IndexController
         } else {//dir
             return $this->dir();
         }
+       
     }
     //客户端缓存验证管理员不启用
     public function clientcache()
@@ -198,8 +202,8 @@ class IndexController
 
     //列目录
     public function dir()
-    {
-        $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).DRIVEID.config('root_path');
+    {// $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).(config('root_path') ? '?/' : '');
+        $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).(config('root_path').DRIVEID);
         $navs = $this->navs();
 
         if ($this->items['index.html']) {

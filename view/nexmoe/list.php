@@ -71,7 +71,7 @@
                             onclick="onClickHander()">
                         <i class="mdui-checkbox-icon"></i></label>
                         
-                         <?endif;?> 
+                         <?endif;?>           
                     <a class="<?php if(is_login()):?>admin<?php endif;?>" href="<?php echo $root.$path.rawurlencode($item['name'])."/";?>">
                         <div id="<?php echo$item["id"] ?>" class="mdui-col-xs-12 mdui-col-sm-7 mdui-text-truncate">
                             <i class="mdui-icon material-icons">folder_open</i>
@@ -206,8 +206,8 @@ $i++;
     }
 }
 ?>
- <script>var 驱动器 = "<?php echo $驱动器; ?>"
-var 请求路径= "<?php echo $请求路径; ?>"
+ <script>var 驱动器 = "<?php echo DRIVEID; ?>"
+var 请求路径= "<?php echo VIST_PATH; ?>"
 var move= "<?php echo $me=str_replace("\"","\\\"",$_COOKIE["moveitem"]);
  ?>";
 </script>

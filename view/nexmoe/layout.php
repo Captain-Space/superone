@@ -40,27 +40,7 @@ background-size: cover;
 	background-size: cover !important;
 	background-attachment: fixed !important;
 	background-repeat: no-repeat !important;
-}    .mdui-toolbar>* {
-            padding: 0 6px;
-            margin: 0 2px;
-            opacity: 0.5;
-        }
-
-        .mdui-toolbar>.mdui-typo-headline {
-            padding: 0 1px 0 0;
-        }
-
-        .mdui-toolbar>i {
-            padding: 0;
-        }
-
-        .mdui-toolbar>a:hover, a.mdui-typo-headline, a.active {
-            opacity: 1;
-        }
-           .mdui-toolbar>a:last-child {
-            opacity: 1;
-        }
-
+}    
 
         .mdui-container {/*内容区域*/
             max-width: 1024px;
@@ -85,7 +65,7 @@ background-size: cover;
 	
      
         #instantclick-bar {
-            background: white;
+            background: 
 
         }
 
@@ -111,13 +91,7 @@ background-size: cover;
                 width: 100% !important;
                 margin: 0px;
             }
-            .mdui-toolbar>a:last-child,
-            .mdui-toolbar>a:nth-last-of-type(2),
-            .mdui-toolbar>.mdui-typo-headline,
-            .mdui-toolbar>i:first-child,
-            .mdui-toolbar-spacer {
-                display: block;
-            }
+           
         }
         
         
@@ -233,16 +207,94 @@ background-size: cover;
    
     bottom: 64px;
 }
-.mdui-toolbar .nexmoe-item{
-    background-color: rgba(255, 255, 255, 0.5);
-    
+
+ #toolbar{
+   
+    background-image:url() !important;
 }
         <?php echo config("cssstyle");//自定义css?>
         
     </style>
 </head>
 
-    <body class="  mdui-loaded">
+    <body class="  mdui-loaded mdui-appbar-with-toolbar">
+       
+      
+            
+            
+        <div class="mdui-appbar mdui-appbar-fixed">
+            <div class="mdui-toolbar mdui-color-orange"id="toolbar"><button mdui-drawer="{target: '.mc-drawer', swipe: true}"
+                    class="mdui-btn mdui-btn-icon mdui-ripple "><i
+                        class="mdui-icon material-icons">menu</i></button>
+                    
+                        	<div class="mdui-toolbar-spacer"></div>
+
+
+                           
+                 
+            
+            </div>
+      
+
+
+
+
+
+
+
+
+
+        <div class="mc-drawer mdui-drawer <?php if(!config("appbar")):?>mdui-drawer-close<?endif?>">
+            <div class="mdui-list">
+                <a class="mdui-list-item mdui-ripple " href="/"><i
+                        class="mdui-list-item-icon mdui-icon material-icons">home</i>
+                    <div class="mdui-list-item-content">首页</div>
+                </a>
+ <?php 
+		
+	$filess = scandir(ROOT."config/");
+    foreach ($filess as $part) {
+        if ('.' == $part ||'..' == $part||'default.php' == $part||'default.php' == $part||'uploads.php' == $part||'uploaded.php' == $part||'base.php' == $part||".DS_Store"==$part) continue;
+        else {
+             $v=str_replace(".php","",$part);
+        echo '<a href="/'.$v.'/" class="mdui-list-item mdui-ripple">
+		    	<i class="mdui-list-item-icon mdui-icon material-icons">cloud</i>
+			    <div class="mdui-list-item-content">'.$v.'</div>
+	    	</a>';
+             }
+        
+        }
+
+	if($_COOKIE["admin"]==config("password@base"))	
+	echo'<a href="/install.php" class="mdui-list-item mdui-ripple">
+			<i class="mdui-list-item-icon mdui-icon material-icons">home</i>
+			<div class="mdui-list-item-content">添加新盘</div>
+		</a>';
+?>
+<?php e(config('drawer'));?><a href="https://github.com/742481030/oneindex" class="mdui-list-item mdui-ripple ">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">code</i>
+                    <div class="mdui-list-item-content">Github</div>
+                </a>
+            </div>
+            <div class="copyright"></div>
+        </div>
+
+    </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
        
         
 
@@ -347,12 +399,14 @@ background-size: cover;
  
          <script src="https://cdn.jsdelivr.net/combine/npm/mdui@0.4.3/dist/js/mdui.min.js,gh/mcstudios/glightbox/dist/js/glightbox.min.js,npm/aplayer/dist/APlayer.min.js,npm/js-cookie@2/src/js.cookie.min.js,gh/axios/axios@0.19.2/dist/axios.min.js"></script>
         
-         
+          <script src="https://cdn.jsdelivr.net/combine/gh/newcdn/ui/js/dianjiyuanquan.js"></script>
           <script src="/view/nexmoe/manger-11.js"></script>
-       
+      
 
        
     </footer>
-
+<canvas id="Snow"></canvas>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/cdngod/texiao@1.0/css/snow.css">
+<script src="https://cdn.jsdelivr.net/gh/cdngod/texiao@1.0/js/snow.js"></script>
 </html>
 <?php endif?>
