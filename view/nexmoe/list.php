@@ -197,7 +197,7 @@ if (    ( !is_login() && config("guestpreload") )             ) {
         if(!empty($item['folder'])){
             if ($i==$num){break;}
             echo 
-            ' <link rel="prefetch" href=" .'rawurlencode($item['name']).'/">';
+            ' <link rel="prefetch" href=" '.rawurlencode($item['name']).'/">';
                     
                 }
 
