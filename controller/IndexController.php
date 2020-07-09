@@ -30,13 +30,7 @@ class IndexController
         self::$驱动器 = $驱动器;
         self::$请求路径 = $请求路径;
         
-             define('CACHE_PATH', ROOT.'cache/');
-              
-        
-       
-        //配置缓存类型
-        cache::$type = empty(config('cache_type')) ? 'filecache' : config('cache_type');
-     
+            
         //加载配置文件
        
 
@@ -63,6 +57,7 @@ class IndexController
         $this->path = get_absolute_path(config('onedrive_root').$this->url_path);
         //获取文件夹下所有元素
         $this->items = $this->items($this->path);
+       
     }
 
     public function index()
@@ -91,7 +86,7 @@ class IndexController
     public function clientcache()
     { 
        
-        $docomenttime= cache::gettime('dir_'.$this->path);
+        $docomenttime= cache::gettime(DRIVEID.$this->path);
        
       
       if(is_login()){return;}
@@ -204,7 +199,7 @@ class IndexController
     //列目录
     public function dir()
     {
-        $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).config('root_path');
+        $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).DRIVEID.config('root_path');
         $navs = $this->navs();
 
         if ($this->items['index.html']) {
@@ -247,7 +242,8 @@ class IndexController
                     ->with('head', $head)
                     ->with('readme', $readme)
                     ->with('page', $this->page)
-                    ->with('totalpage', $this->totalpage)->with('驱动器', self::$驱动器)->with('请求路径', self::$请求路径);
+                    ->with('totalpage', $this->totalpage)
+                    ->with('url',$url);
     }
 
     public function show($item)
@@ -261,7 +257,7 @@ class IndexController
         $data['item']['path'] = get_absolute_path($this->path).$this->name;
         $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
         $uri = onedrive::urlencode(get_absolute_path($this->url_path.'/'.$this->name));
-        $data['url'] = $http_type.$_SERVER['HTTP_HOST'].$root.$uri;
+        $data['url'] = $http_type.$_SERVER['HTTP_HOST']."/".DRIVEID.$root.$uri;
 
         $show = config('show');
         foreach ($show as $n => $exts) {
@@ -306,9 +302,30 @@ class IndexController
         return $items;
     }
     //导航栏目
+    public function drivelist(){
+        
+        	$list=[];
+        	$i;
+	$filess = scandir(ROOT."config/");
+    foreach ($filess as $part) {
+        if ('.' == $part ||'..' == $part||'default1.php' == $part||'default.php' == $part||'uploads.php' == $part||'uploaded.php' == $part||'base.php' == $part||".DS_Store"==$part) continue;
+        else {
+             $v=str_replace(".php","",$part);
+             echo $v;
+             $list[$i]=$v;
+     $i++;
+        }}
+        
+        return  $list;
+        
+        
+        
+        
+    }
+    //导航栏目
     public function navs()
     {
-        $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).config('root_path');
+        $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).DRIVEID.config('root_path');
         $navs['/'] = get_absolute_path($root.'/');
         foreach (explode('/', $this->url_path) as $v) {
             if (empty($v)) {

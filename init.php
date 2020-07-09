@@ -1,17 +1,20 @@
 <?php
 
-ini_set('memory_limit', '1228M');
-$stime = microtime(true);
+ini_set('memory_limit', '512M');
+
 error_reporting(E_ALL & ~E_NOTICE);
 date_default_timezone_set('PRC');
 define('TIME', time());
-define('SOFTVERSION', 11);
+define('SOFTVERSION', 10);
 !defined('ROOT') && define('ROOT', str_replace('\\', '/', dirname(__FILE__)).'/');
 !defined('CONFIG_PATH') && define('CONFIG_PATH', ROOT.'config/');
 !defined('CONTROLLER_PATH') && define('CONTROLLER_PATH', ROOT.'controller/');
 define('DRIVEID',drives());
 define('VIST_PATH',visit_path());
 define('URI',URI());
+ define('CACHE_PATH', ROOT.'cache/');
+
+     
 if (file_exists(ROOT.'vendor/autoload.php')) {
     require_once ROOT.'vendor/autoload.php';
 }
@@ -79,6 +82,8 @@ if (!function_exists('config')) {
         }
     }
 }
+
+ cache::$type = empty(config('cache_type')) ? 'filecache' : config('cache_type');
 ///////////////////////////////////////////
 if (!function_exists('access_token')) {
     function access_token($配置文件, $驱动器)
@@ -372,7 +377,7 @@ if (!function_exists('get_domain')) {
  function drives()
     {
         $requesturi = explode('/', $_SERVER['REQUEST_URI']);
-if ($requesturi['1']==""){
+if ($requesturi['1']==""||$requesturi['1']=="/"){
    $requesturi['1']="default"; 
 }
         return $requesturi['1'];

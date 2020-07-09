@@ -2,8 +2,8 @@
 //应用入口
 require __DIR__.'/init.php';
 
-if (!file_exists(ROOT.'config/base.php') or !file_exists(ROOT.'config/default.php')) {
-    header('Location: /install.php');
+if (!file_exists(ROOT.'config/base.php')  ) {
+    header('Location: /view/admin/install/index.php');
     exit;
 }
 

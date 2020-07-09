@@ -129,10 +129,6 @@ class ApiController
     public function cache()
     { 
      
-             define('CACHE_PATH', ROOT.'cache/');
-             
-        
-        cache::$type = empty(config('cache_type')) ? 'filecache' : config('cache_type');
        
         echo "删除缓存".VIST_PATH;
      

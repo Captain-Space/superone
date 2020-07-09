@@ -13,6 +13,8 @@
         <th>#</th>
         <th>公开</th>
         <th>类型</th>
+        <th>游客上传</th>
+         <th>初始目录</th>
         <th>管理</th>
       </tr>
     </thead>
@@ -44,6 +46,21 @@
        header('Location: /admin/drives');
   }
   
+   if($_GET["action"]=="guestupload"){
+      $data= config('@'.$_GET["name"]);
+      if(config('@'.$_GET["name"])["guestupload"]=="on")
+      {
+          $data["guestupload"]="off";
+          config('@'.$_GET["name"],$data);
+       
+      }else{
+           $data["guestupload"]="on";
+           config('@'.$_GET["name"],$data);
+      }
+      
+       header('Location: /admin/drives');
+  }
+  
   
   
   
@@ -57,6 +74,8 @@
         <td>'.$v.'</td>
         <td> <a href="/admin/drives?action=share&name='.$v.'">'.config('@'.$v)["share"].'</a></td>
         <td>'.config('@'.$v)["drivestype"].'</td>
+         <td> <a href="/admin/drives?action=guestupload&name='.$v.'">'.config('@'.$v)["guestupload"].'</a></td>
+         <td> <a href="/admin/drives?action=onedrive_root&name='.$v.'">'.config('@'.$v)["onedrive_root"].'</a></td>
         <td><a href="/admin/drives?action=del&name='.$v.'">删除</a></td>
       </tr>
      ';
