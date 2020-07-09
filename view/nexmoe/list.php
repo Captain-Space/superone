@@ -2,7 +2,9 @@
 <?php view::begin('content');?>
 <?php if ($_GET["page"]==""){
           $_GET["page"]=1;  
-            }$next=$_GET["page"]+1;$uppage=$_GET["page"]-1;$url=$请求路径;function isImage($filename){
+            }$next=$_GET["page"]+1;$uppage=$_GET["page"]-1;
+           // $root.$path=$请求路径;
+            function isImage($filename){
                                      $types = '/(\.jpg$|\.png$|\.jpeg$)/i';
                                      if(preg_match($types, trim($filename))){
                                     return true;
@@ -70,7 +72,7 @@
                         <i class="mdui-checkbox-icon"></i></label>
                         
                          <?endif;?> 
-                    <a class="<?php if(is_login()):?>admin<?php endif;?>" href="<?php echo "/". $驱动器."/". $url.rawurlencode($item['name'])."/";?>">
+                    <a class="<?php if(is_login()):?>admin<?php endif;?>" href="<?php echo $root.$path.rawurlencode($item['name'])."/";?>">
                         <div id="<?php echo$item["id"] ?>" class="mdui-col-xs-12 mdui-col-sm-7 mdui-text-truncate">
                             <i class="mdui-icon material-icons">folder_open</i>
                             <span><?php e($item['name']);?></span>
@@ -98,9 +100,9 @@
                     <a <?php echo file_ico($item)=="image"?'class="glightbox"':"";echo file_ico($item)=="ondemand_video"?'class="iframe"':"";echo file_ico($item)=="audiotrack"?'class="audio"':"";echo file_ico($item)=="insert_drive_file"?'class="dl"':""?>
                         data-name="<?php e($item['name']);?>"
                         data-readypreview="<?php echo strtolower(pathinfo($item['name'], PATHINFO_EXTENSION));?>"
-                        href="<?php echo "/". $驱动器."/". $url.rawurlencode($item['name']);?>" target="_blank">
+                        href="<?php echo $root.$path.rawurlencode($item['name']);?>" target="_blank">
                         <?php if(isImage($item['name']) and $_COOKIE["image_mode"] == "1"):?>
-                        <img class="mdui-img-fluid" src="<?php echo"/". $驱动器."/". $url.rawurlencode($item['name']);?>">
+                        <img class="mdui-img-fluid" src="<?php echo$root.$path.rawurlencode($item['name']);?>">
                         <?php else:?>
                         <div id="<?php echo$item["id"] ?>" class="mdui-col-xs-12 mdui-col-sm-7 mdui-text-truncate">
                             <i class="mdui-icon material-icons"><?php echo file_ico($item);?></i>
@@ -114,7 +116,7 @@
                     </a>
 
                     <div class="forcedownload ">
-                        <a title="直接下载" href="<?php echo "/". $驱动器."/". $url.rawurlencode($item['name']);?>">
+                        <a title="直接下载" href="<?php echo $root.$path.rawurlencode($item['name']);?>">
                             <button class="mdui-btn mdui-ripple mdui-btn-icon"><i
                                     class="mdui-icon material-icons">file_download</i></button>
                         </a>
@@ -195,7 +197,7 @@ if (    ( !is_login() && config("guestpreload") )             ) {
         if(!empty($item['folder'])){
             if ($i==$num){break;}
             echo 
-            ' <link rel="prefetch" href="/'.$驱动器.'/'.$url.rawurlencode($item['name']).'/">';
+            ' <link rel="prefetch" href="/'.$驱动器.'/'.$root.$path.rawurlencode($item['name']).'/">';
                     
                 }
 

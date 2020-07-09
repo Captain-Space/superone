@@ -7,12 +7,11 @@ $downloadUrl = $item['downloadUrl'];
  		$downloadUrl = $item['downloadUrl'];
  	}
 ?>
-
-
+<?php view::layout('layout')?>
+<?php view::begin('content');?>
 <link class="dplayer-css" rel="stylesheet" href="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
-<script src="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/combine/npm/dplayer/dist/DPlayer.min.js,npm/flv.js/dist/flv.min.js,npm/hls.js/dist/hls.min.js"></script>
+
 
 
 <div class="mdui-container-fluid">
@@ -62,5 +61,5 @@ const dp = new DPlayer({
 });
 </script>
 
-<?php //view::end('content');
-exit;?>
+<?php view::end('content');
+?>

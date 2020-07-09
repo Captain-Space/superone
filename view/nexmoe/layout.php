@@ -263,7 +263,7 @@ background-size: cover;
                      <a href="javascript:;" class="mdui-btn mdui-btn-icon getlink-btn"><i class="mdui-icon material-icons">link</i></a>
                      <a class="<?php if(is_login()):?>admin<?php endif?>" href="/"><?php e(config('site_name'));?></a>
 			<?php foreach((array)$navs as $n=>$l):?>
-			<a  class="<?php if(is_login()):?>admin<?php endif?>" href="<?php e("/".$驱动器.$l);?>"><?php e($n);?></a>
+			<a  class="<?php if(is_login()):?>admin<?php endif?>" href="<?php e($l);?>"><?php e($n);?></a>
 						<i class="mdui-icon material-icons mdui-icon-dark" style="margin:0;">chevron_right</i>
 			<?php endforeach;?>
 					</div>
