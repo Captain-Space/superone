@@ -405,8 +405,6 @@ background-size: cover;
 
        
     </footer>
-<canvas id="Snow"></canvas>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/cdngod/texiao@1.0/css/snow.css">
-<script src="https://cdn.jsdelivr.net/gh/cdngod/texiao@1.0/js/snow.js"></script>
+
 </html>
 <?php endif?>
